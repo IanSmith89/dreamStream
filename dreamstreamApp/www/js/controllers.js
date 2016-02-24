@@ -7,6 +7,8 @@ angular.module('dreamstreamApp.controllers', [])
 
 .controller('NewCtrl', function($scope) {})
 
-.controller('DataCtrl', function($scope) {})
+.controller('DataCtrl', function($scope, DreamWordsFactory) {
+  $scope.words = DreamWordsFactory.get();
+})
 
 .controller('AccountCtrl', function($scope) {});
