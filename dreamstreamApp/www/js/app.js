@@ -31,24 +31,58 @@ angular.module('dreamstreamApp', ['ionic', 'dreamstreamApp.controllers', 'dreams
   // Each state's controller can be found in controllers.js
 
   $stateProvider
-    .state('home', {
-      url: '/',
-      templateUrl: 'templates/home.html'
+    .state('tab', {
+      url: '/tab',
+      abstract: true,
+      templateUrl: 'templates/tabs.html'
     })
-    .state('new', {
-      url: '/new',
-      templateUrl: 'templates/new.html'
+    .state('tab.home', {
+      url: '/home',
+      views: {
+        'home': {
+          templateUrl: 'templates/home.html',
+          controller: 'HomeCtrl'
+        }
+      }
     })
-    .state('stream', {
+    .state('tab.stream', {
       url: '/stream',
-      templateUrl: 'templates/stream.html'
+      views: {
+        'stream': {
+          templateUrl: 'templates/stream.html',
+          controller: 'StreamCtrl'
+        }
+      }
     })
-    .state('data', {
+    .state('tab.new', {
+      url: '/new',
+      views: {
+        'new': {
+          templateUrl: 'templates/new.html',
+          controller: 'NewCtrl'
+        }
+      }
+    })
+    .state('tab.data', {
       url: '/data',
-      templateUrl: 'templates/data.html'
+      views: {
+        'data': {
+          templateUrl: 'templates/data.html',
+          controller: 'DataCtrl'
+        }
+      }
+    })
+    .state('tab.account', {
+      url: '/account',
+      views: {
+        'account': {
+          templateUrl: 'templates/account.html',
+          controller: 'AccountCtrl'
+        }
+      }
     });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/tab/home');
 
 });
