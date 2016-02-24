@@ -19,7 +19,7 @@ angular.module('dreamstreamApp.controllers', [])
       $location.path('/tab/new');
     });
   }
-});
+})
 
 .controller('DataCtrl', function($scope, DreamWordsFactory) {
   $scope.words = DreamWordsFactory.get();
