@@ -59,7 +59,7 @@ angular.module('dreamstreamApp', ['ionic', 'dreamstreamApp.controllers', 'dreams
       views: {
         'new': {
           templateUrl: 'templates/new.html',
-          controller: 'NewCtrl'
+          controller: 'NewCtrl as New'
         }
       }
     })

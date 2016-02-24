@@ -5,9 +5,16 @@ angular.module('dreamstreamApp.controllers', [])
 
 .controller('StreamCtrl', function($scope) {})
 
-.controller('NewCtrl', function($scope) {})
-
-.controller('DataCtrl', function($scope) {})
+.controller('NewCtrl', function($scope, $location, newDreamService) {
+  var vm = this;
+  vm.addNewDream = addNewDream;
+  function addNewDream(dream){
+    newDreamService.addNewDream(dream)
+    .then(function(response){
+      $location.path('/tab/stream');
+    });
+  }
+})
 
 .controller('AccountCtrl', function($scope, $location, signinService) {
   var vm = this;
@@ -23,6 +30,4 @@ angular.module('dreamstreamApp.controllers', [])
 
 .controller('DataCtrl', function($scope, DreamWordsFactory) {
   $scope.words = DreamWordsFactory.get();
-})
-
-.controller('AccountCtrl', function($scope) {});
+});
