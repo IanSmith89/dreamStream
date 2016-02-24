@@ -39,6 +39,15 @@ angular.module('dreamstreamApp', ['ionic', 'dreamstreamApp.controllers', 'dreams
       url: '/new',
       templateUrl: 'templates/new.html'
     })
+    .state('mic', {
+      url: '/mic',
+      views: {
+        'mic': {
+          templateUrl: 'templates/mic-check.html',
+          controller: 'MicCtrl'
+        }
+      }
+    })
     .state('stream', {
       url: '/stream',
       templateUrl: 'templates/stream.html'

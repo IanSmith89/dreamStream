@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('dreamstreamApp.services', [])
 
 .factory('Chats', function() {
@@ -48,3 +50,34 @@ angular.module('dreamstreamApp.services', [])
     }
   };
 });
+
+angular.module('ngCordova', [
+  'ngCordova.plugins'
+]);
+
+
+angular.module('ngCordova.plugins', [
+  'capture'
+]);
+
+angular.module('ngCordova.plugins.capture', ['ngCordova'])
+  .factory('$cordovaCapture', ['$q', function($q) {
+    return {
+      captureAudio: function(options) {
+        var q = $q.defer();
+
+        if (!navigator.device.capture) {
+          q.resolve(null);
+          return q.promise;
+        }
+
+        navigator.device.capture.captureAudio(function(audioData) {
+          q.resolve(audioData);
+        }, function(err) {
+          q.reject(err);
+        }, options);
+
+        return q.promise;
+      }
+    };
+  }]);

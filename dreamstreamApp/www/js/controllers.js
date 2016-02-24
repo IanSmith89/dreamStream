@@ -1,5 +1,5 @@
 'use strict';
-angular.module('dreamstreamApp.controllers', [])
+angular.module('dreamstreamApp.controllers', ['dreamstreamApp.services'])
 
 .controller('HomeCtrl', function($scope) {})
 
@@ -16,6 +16,17 @@ angular.module('dreamstreamApp.controllers', [])
   $scope.remove = function(chat) {
     Chats.remove(chat);
   };
+})
+
+.controller('MicCtrl', function($scope, $cordovaCapture) {
+  var vm = this;
+  vm.record = $cordovaCapture.captureAudio().then(function(err, data) {
+    if (err) {
+      console.log(err);
+    }
+    vm.test_output.innerText = 'Testing Testing';
+    console.log(data);
+  });
 })
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
