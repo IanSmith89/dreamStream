@@ -47,4 +47,20 @@ angular.module('dreamstreamApp.services', [])
       return null;
     }
   };
-});
+})
+
+.service('signinService', ['$http', signinService]);
+function signinService($http){
+  return {
+    signin: function(user){
+      return $http.post('http://localhost:3000/signin', user)
+        .then(function(response){
+          // console.log('success response');
+          return response;
+        }, function(response){
+          // console.log('service errors');
+          console.log(response);
+        });
+    }
+  };
+}

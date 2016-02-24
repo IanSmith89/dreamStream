@@ -77,7 +77,7 @@ angular.module('dreamstreamApp', ['ionic', 'dreamstreamApp.controllers', 'dreams
       views: {
         'account': {
           templateUrl: 'templates/account.html',
-          controller: 'AccountCtrl'
+          controller: 'AccountCtrl as Account'
         }
       }
     });
