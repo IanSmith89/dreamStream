@@ -20,3 +20,9 @@ angular.module('dreamstreamApp.controllers', [])
     });
   }
 });
+
+.controller('DataCtrl', function($scope, DreamWordsFactory) {
+  $scope.words = DreamWordsFactory.get();
+})
+
+.controller('AccountCtrl', function($scope) {});
