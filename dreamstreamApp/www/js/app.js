@@ -43,6 +43,10 @@ angular.module('dreamstreamApp', ['ionic', 'dreamstreamApp.controllers', 'dreams
       url: '/stream',
       templateUrl: 'templates/stream.html'
     })
+    .state('signup', {
+      url: '/signup',
+      templateUrl: 'templates/signup.html'
+    })
     .state('data', {
       url: '/data',
       templateUrl: 'templates/data.html'

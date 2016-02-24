@@ -29,4 +29,11 @@ angular.module('dreamstreamApp.controllers', [])
 //Controller to enter new dream
 
 .controller('NewCtrl', function($scope) {
+})
+
+//Controller to signup
+
+.controller('SignupCtrl', function($scope, user) {
+  var vm = this;
+  vm.firstName = user.firstName;
 });
