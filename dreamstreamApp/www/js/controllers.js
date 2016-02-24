@@ -3,7 +3,17 @@ angular.module('dreamstreamApp.controllers', [])
 
 .controller('HomeCtrl', function($scope) {})
 
-.controller('StreamCtrl', function($scope) {})
+.controller('StreamCtrl', function($scope, Dreams) {
+  var vm = this;
+  vm.loadDreams = Dreams.all()
+    .then(function(dreamsArr) {
+      console.log(dreamsArr);
+      vm.dreams = dreamsArr.data;
+    })
+    .catch(function(err) {
+      console.err(new Error(err));
+    });
+})
 
 .controller('NewCtrl', function($scope, $location, newDreamService) {
   var vm = this;

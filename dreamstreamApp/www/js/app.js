@@ -50,7 +50,7 @@ angular.module('dreamstreamApp', ['ionic', 'dreamstreamApp.controllers', 'dreams
       views: {
         'stream': {
           templateUrl: 'templates/stream.html',
-          controller: 'StreamCtrl'
+          controller: 'StreamCtrl as SC'
         }
       }
     })

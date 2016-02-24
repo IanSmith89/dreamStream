@@ -65,6 +65,34 @@ angular.module('dreamstreamApp.services', [])
 
 .service('newDreamService', ['$http', newDreamService]);
 
+.service('Dreams', ['$http', function($http) {
+
+    this.all = function() {
+      return $http({
+        method: 'GET',
+        url: 'http://localhost:3000/dreams',
+        headers: {
+          Authorization: localStorage.Authorization
+        }
+      }).then(function(obj) {
+          return obj;
+        }, function(response) {
+          console.error(new Error(response));
+        });
+    };
+    this.remove = function(dream) {
+      dreams.splice(dreams.indexOf(dream), 1);
+    };
+    this.get = function(dreamId) {
+      for (var i = 0; i < dreams.length; i++) {
+        if (dreams[i].id === parseInt(dreamId)) {
+          return dreams[i];
+        }
+      }
+      return null;
+    };
+}])
+
 function signinService($http){
   return {
     signin: function(user){
