@@ -1,5 +1,17 @@
-<ion-view view-title="Account Info">
+<ion-view view-title="Sign In">
   <ion-content class="padding center">
-
+    <form ng-submit="Account.signin({email: email, password: password})">
+    <div class="list">
+    <label class="item item-input item-floating-label">
+      <span class="input-label">Email</span>
+      <input name="email" type="text" placeholder="Email" ng-model="email">
+    </label>
+    <label class="item item-input item-floating-label">
+      <span class="input-label">Password</span>
+      <input name="password" type="text" placeholder="Password" ng-model="password">
+    </label>
+    <button type="submit" class="button">Submit</button>
+  </div>
+  </form>
   </ion-content>
 </ion-view>
