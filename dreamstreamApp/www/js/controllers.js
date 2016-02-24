@@ -15,13 +15,16 @@ angular.module('dreamstreamApp.controllers', [])
     });
 })
 
-.controller('NewCtrl', function($scope, $location, newDreamService) {
+.controller('NewCtrl', function($scope, $state, newDreamService) {
   var vm = this;
   vm.addNewDream = addNewDream;
   function addNewDream(dream){
     newDreamService.addNewDream(dream)
     .then(function(response){
-      $location.path('/tab/stream');
+      $state.go('tab.stream', {}, {
+        reload: true
+      });
+      // $location.path('/tab/stream');
     });
   }
 })

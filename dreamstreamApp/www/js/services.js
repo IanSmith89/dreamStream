@@ -63,17 +63,14 @@ angular.module('dreamstreamApp.services', [])
 
 .service('signinService', ['$http', signinService])
 
-.service('newDreamService', ['$http', newDreamService]);
+.service('newDreamService', ['$http', newDreamService])
 
 .service('Dreams', ['$http', function($http) {
 
     this.all = function() {
       return $http({
         method: 'GET',
-        url: 'http://localhost:3000/dreams',
-        headers: {
-          Authorization: localStorage.Authorization
-        }
+        url: 'http://localhost:3000/dreams'
       }).then(function(obj) {
           return obj;
         }, function(response) {
@@ -93,6 +90,32 @@ angular.module('dreamstreamApp.services', [])
     };
 }])
 
+.service("AuthInterceptor", function($location, $q){
+  return {
+    request: function(config){
+      // prevent browser bar tampering for /api routes
+      config.headers['X-Requested-With'] = 'XMLHttpRequest';
+      var token = localStorage.getItem("Authorization");
+      if(token)
+        config.headers.Authorization = token;
+      return $q.resolve(config);
+    },
+    responseError: function(err){
+      // if you mess around with the token, log them out and destroy it
+      if(err.data === "invalid token" || err.data === "invalid signature" || err.data === "jwt malformed"){
+        $location.path("/signin");
+        return $q.reject(err);
+      }
+      // if you try to access a user who is not yourself
+      if(err.status === 401){
+        $location.path('/signin');
+        return $q.reject(err);
+      }
+      return $q.reject(err);
+    }
+  };
+});
+
 function signinService($http){
   return {
     signin: function(user){
@@ -107,11 +130,6 @@ function signinService($http){
     }
   };
 }
-
-
-
-
-
 
 
 

@@ -23,7 +23,7 @@ angular.module('dreamstreamApp', ['ionic', 'dreamstreamApp.controllers', 'dreams
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
@@ -46,6 +46,7 @@ angular.module('dreamstreamApp', ['ionic', 'dreamstreamApp.controllers', 'dreams
       }
     })
     .state('tab.stream', {
+      cache: false,
       url: '/stream',
       views: {
         'stream': {
@@ -84,5 +85,6 @@ angular.module('dreamstreamApp', ['ionic', 'dreamstreamApp.controllers', 'dreams
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/home');
+  $httpProvider.interceptors.push("AuthInterceptor");
 
 });
