@@ -114,7 +114,10 @@ angular.module('dreamstreamApp.services', [])
       return $q.reject(err);
     }
   };
-});
+})
+
+.service('signinService', ['$http', signinService])
+.service('signupService', ['$http', signupService]);
 
 function signinService($http){
   return {
@@ -131,14 +134,20 @@ function signinService($http){
   };
 }
 
-
-
-
-
-
-
-
-
+function signupService($http){
+  return {
+    signup: function(user){
+      return $http.post('http://localhost:3000/signup', user)
+        .then(function(response){
+          // console.log('success response');
+          return response;
+        }, function(response){
+          // console.log('service errors');
+          console.log(response);
+        });
+    }
+  };
+}
 
 function newDreamService($http){
   return {
