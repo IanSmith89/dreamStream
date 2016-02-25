@@ -1,0 +1,19 @@
+<!-- <script id="signup.html" type="text/ng-template"></script> -->
+
+  <ion-view view-title="Dashboard">
+    <ion-content class="padding center">
+      <h1>Sign Up</h1>
+      <form ng-submit="signup()">
+        <div class="list">
+          <label class="item item-input">
+            <input type="text" placeholder="First Name" ng-model="user.firstName">
+          </label>
+          <label class="item item-input">
+            <input type="text" placeholder="Last Name" ng-model="user.lastName">
+          </label>
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+      {{ user.firstName }}
+    </ion-content>
+  </ion-view>
