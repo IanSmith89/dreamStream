@@ -56,6 +56,7 @@ angular.module('dreamstreamApp', ['ionic', 'dreamstreamApp.controllers', 'dreams
       }
     })
     .state('tab.new', {
+      cache: false,
       url: '/new',
       views: {
         'new': {
@@ -65,11 +66,12 @@ angular.module('dreamstreamApp', ['ionic', 'dreamstreamApp.controllers', 'dreams
       }
     })
     .state('tab.data', {
+      cache: false,
       url: '/data',
       views: {
         'data': {
           templateUrl: 'templates/data.html',
-          controller: 'DataCtrl'
+          controller: 'DataCtrl as Data'
         }
       }
     })
