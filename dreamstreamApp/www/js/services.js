@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('dreamstreamApp.services', [])
-  .factory('DreamParser', function(dreamStr)
+  .service('DreamParser', function(dreamStr)
     {
       dreamStr = dreamStr.replace(/[,.:;"'|!@#$%^&*()_+=<>-]/g, '');
       var dreamArr = dreamStr.split(' ');
