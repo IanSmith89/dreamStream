@@ -109,11 +109,28 @@ angular.module('dreamstreamApp.services', [])
   };
 })
 
-.service('signinService', ['$http', signinService]);
+.service('signinService', ['$http', signinService])
+.service('signupService', ['$http', signupService]);
+
 function signinService($http){
   return {
     signin: function(user){
       return $http.post('http://localhost:3000/signin', user)
+        .then(function(response){
+          // console.log('success response');
+          return response;
+        }, function(response){
+          // console.log('service errors');
+          console.log(response);
+        });
+    }
+  };
+}
+
+function signupService($http){
+  return {
+    signup: function(user){
+      return $http.post('http://localhost:3000/signup', user)
         .then(function(response){
           // console.log('success response');
           return response;

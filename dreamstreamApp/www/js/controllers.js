@@ -7,11 +7,10 @@ angular.module('dreamstreamApp.controllers', [])
 
 .controller('NewCtrl', function($scope) {})
 
-.controller('DataCtrl', function($scope) {})
-
-.controller('AccountCtrl', function($scope, $location, signinService) {
+.controller('AccountCtrl', function($scope, $location, signinService, signupService) {
   var vm = this;
   vm.signin = signin;
+  vm.signup = signup;
   function signin(user){
     signinService.signin(user).then(function(response){
       // console.log(response);
@@ -19,10 +18,13 @@ angular.module('dreamstreamApp.controllers', [])
       $location.path('/tab/new');
     });
   }
+  function signup(user){
+    signupService.signup(user).then(function(response){
+      console.log(response);
+    });
+  }
 })
 
 .controller('DataCtrl', function($scope, DreamWordsFactory) {
   $scope.words = DreamWordsFactory.get();
-})
-
-.controller('AccountCtrl', function($scope) {});
+});
