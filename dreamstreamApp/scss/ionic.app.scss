@@ -21,6 +21,19 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+#dream-stream-text {
+  width: 100%;
+}
+
+#dream-input {
+  height: 125px;
+}
+
+.num-holder {
+  width: 24px;
+  height: 24px;
+}
+
 .center {
   text-align: center;
 }
