@@ -129,7 +129,7 @@ function newDreamService($http) {
 function dreamParserFunc() {
   return {
     parse: function(dreamStr) {
-      dreamStr = dreamStr.replace(/[,.:;"'|!@#$%^&*()_+=<>-]/g, '');
+      dreamStr = dreamStr.replace(/[,.:;"'|!@#$%^&*()\?_+=<>-]/g, '');
       var dreamArr = dreamStr.split(' ');
       for (var i = 0; i < dreamArr.length; i++) {
         dreamArr[i] = dreamArr[i].toLowerCase();
@@ -165,7 +165,7 @@ function dreamCloudService() {
       });
       var fill = d3.scale.category20();
       //Create word cloud
-      d3.layout.cloud().size([400, 400])
+      d3.layout.cloud().size([350, 350])
         .words(uniqueArray.map(function(d) {
           var maxCount = 0;
           for (var item in newObj) {
@@ -176,7 +176,7 @@ function dreamCloudService() {
 
           return {
             text: d,
-            size: (105 * (newObj[d] / maxCount)) + 5
+            size: (95 * (newObj[d] / maxCount)) + 5
           };
         }))
         .rotate(function() {
@@ -189,7 +189,7 @@ function dreamCloudService() {
         .on("end", draw).start();
 
       function draw(words) {
-        d3.select("#word-cloud").append("svg").attr("width", 500).attr("height", 500).append("g").attr("transform", "translate(200,200)").selectAll("text").data(words).enter().append("text").style("font-size", function(d) {
+        d3.select("#word-cloud").append("svg").attr("width", 350).attr("height", 350).append("g").attr("transform", "translate(175,175)").selectAll("text").data(words).enter().append("text").style("font-size", function(d) {
           return d.size + "px";
         }).style("font-family", "Impact").style("fill", function(d, i) {
           return fill(i);
