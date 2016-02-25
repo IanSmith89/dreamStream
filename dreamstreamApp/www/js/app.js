@@ -71,7 +71,7 @@ angular.module('dreamstreamApp', ['ionic', 'dreamstreamApp.controllers', 'dreams
       views: {
         'data': {
           templateUrl: 'templates/data.html',
-          controller: 'DataCtrl'
+          controller: 'DataCtrl as Data'
         }
       }
     })
