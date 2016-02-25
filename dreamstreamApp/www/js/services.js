@@ -1,6 +1,17 @@
 'use strict';
 
 angular.module('dreamstreamApp.services', [])
+  .factory('DreamParser', function(dreamStr)
+    {
+      dreamStr = dreamStr.replace(/[,.:;"'|!@#$%^&*()_+=<>-]/g, '');
+      var dreamArr = dreamStr.split(' ');
+      for(var i=0; i < dreamArr.length; i++)
+      {
+        dreamArr[i] = dreamArr[i].toLowerCase();
+      }
+      return dreamArr;
+    }
+  )
   .factory('DreamWordsFactory', function() {
     var wordArray = [
       "Hello",
