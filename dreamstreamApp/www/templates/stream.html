@@ -2,16 +2,39 @@
   <ion-content class="padding">
     <div class="card" ng-repeat="dream in SC.dreams">
       <div class="item item-text-wrap">
-        {{dream.content}}
-        <p>
-          duration: {{dream.duration}}
-        </p>
-        <p>
-          mood: {{dream.mood}}
-        </p>
-        <p>
-          rating: {{dream.rating}}
-        </p>
+        <h2>
+          {{dream.dateTime | date: "EEEE | MMM dd, yyyy"}}
+        </h2>
+        <h4>
+          {{dream.dateTime | date: "h:mma"}}
+        </h4>
+        <textarea>{{dream.content}}</textarea>
+        <div class="row">
+          <div class="col center">
+            <h2>
+              {{dream.mood}}
+            </h2>
+            <h5>
+              MOOD
+            </h5>
+          </div>
+          <div class="col center">
+            <h2>
+              {{dream.rating}}
+            </h2>
+            <h5>
+              RATING
+            </h5>
+          </div>
+          <div class="col center">
+            <h2>
+              {{dream.duration}}
+            </h2>
+            <h5>
+              DURATION
+            </h5>
+          </div>
+        </div>
       </div>
     </div>
   </ion-content>
