@@ -3,13 +3,13 @@
 angular.module('dreamstreamApp.services', [])
 .service('dbURL', [dbURL])
 
-.service('DreamParser', [dreamParserFunc])
+.service('DreamParser', ['dbURL', dreamParserFunc])
 
-.service('DreamWordsService', [dreamCloudService])
+.service('DreamWordsService', ['dbURL', dreamCloudService])
 
-.service('newDreamService', ['$http', newDreamService])
+.service('newDreamService', ['$http', 'dbURL', newDreamService])
 
-.service('scatterService', [scatterService])
+.service('scatterService', ['dbURL', scatterService])
 
 .service('Dreams', ['$http', 'dbURL', function($http, dbURL) {
     this.all = function() {

@@ -14,27 +14,27 @@ angular.module('dreamstreamApp.controllers', [])
     });
 })
 
-.controller('NewCtrl', function($scope, $state, newDreamService, $cordovaMedia) {
+.controller('NewCtrl', function($scope, $state, newDreamService) {
   var vm = this;
   vm.addNewDream = addNewDream;
 
-  var src = "voiceRecord.wav";
-  var media = $cordovaMedia.newMedia(src);
-  //console.log(media);
-  vm.record = function(){
-    media.startRecord();
-    console.log('clicky');
-    //console.log(media);
-  };
-  vm.stop = function(){
-    media.stopRecord();
-  };
-  vm.play = function(){
-    media.play({
-      numberOfLoops: 2,
-      playAudioWhenScreenIsLocked: false
-    });
-  };
+  // var src = "voiceRecord.wav";
+  // var media = $cordovaMedia.newMedia(src);
+  // //console.log(media);
+  // vm.record = function(){
+  //   media.startRecord();
+  //   console.log('clicky');
+  //   //console.log(media);
+  // };
+  // vm.stop = function(){
+  //   media.stopRecord();
+  // };
+  // vm.play = function(){
+  //   media.play({
+  //     numberOfLoops: 2,
+  //     playAudioWhenScreenIsLocked: false
+    // });
+  // };
 
   function addNewDream(dream) {
     newDreamService.addNewDream(dream)
@@ -64,6 +64,7 @@ angular.module('dreamstreamApp.controllers', [])
   function signup(user) {
     signupService.signup(user).then(function(response) {
       console.log(response);
+      $location.path('/tab/account');
     });
   }
 
