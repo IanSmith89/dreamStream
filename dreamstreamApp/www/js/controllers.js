@@ -73,11 +73,12 @@ angular.module('dreamstreamApp.controllers', [])
   }
 })
 
-.controller('DataCtrl', function($scope, DreamWordsService, DreamParser, Dreams, Filters) {
+.controller('DataCtrl', function($scope, DreamWordsService, scatterService, DreamParser, Dreams, Filters) {
 
   var vm = this;
   Dreams.all()
     .then(function(dreamsArr) {
+      scatterService.show(dreamsArr.data);
 
       //GETTING DREAM COUNT
       vm.dreamCount = dreamsArr.data.length;
@@ -168,5 +169,4 @@ angular.module('dreamstreamApp.controllers', [])
     .catch(function(err) {
       console.err(new Error(err));
     });
-
 });
