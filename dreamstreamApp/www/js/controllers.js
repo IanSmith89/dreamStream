@@ -15,9 +15,27 @@ angular.module('dreamstreamApp.controllers', [])
     });
 })
 
-.controller('NewCtrl', function($scope, $state, newDreamService) {
+.controller('NewCtrl', function($scope, $state, newDreamService, $cordovaMedia) {
   var vm = this;
   vm.addNewDream = addNewDream;
+
+  var src = "voiceRecord.wav";
+  var media = $cordovaMedia.newMedia(src);
+  //console.log(media);
+  vm.record = function(){
+    media.startRecord();
+    console.log('clicky');
+    //console.log(media);
+  };
+  vm.stop = function(){
+    media.stopRecord();
+  };
+  vm.play = function(){
+    media.play({
+      numberOfLoops: 2,
+      playAudioWhenScreenIsLocked: false
+    });
+  };
 
   function addNewDream(dream) {
     newDreamService.addNewDream(dream)
