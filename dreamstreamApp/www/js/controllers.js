@@ -84,21 +84,63 @@ angular.module('dreamstreamApp.controllers', [])
       console.log(dreamsArr);
 
       //GETTING AVERAGE MOOD
-      var moodCount = 0;
-      for (var i = 0; i < dreamsArr.data.length; i++) {
-        moodCount += dreamsArr.data[i].mood;
-      }
-      vm.averageMood = moodCount / dreamsArr.data.length;
+      // var moodCount = 0;
+      // var moodData = [
+      //   {
+      //     label: 1,
+      //     color: 'red',
+      //     value: 0
+      //   },
+      //   {
+      //     label: 2,
+      //     color: 'blue',
+      //     value: 0
+      //   },
+      //   {
+      //     label: 3,
+      //     color: 'yellow',
+      //     value: 0
+      //   },
+      //   {
+      //     label: 4,
+      //     color: 'green',
+      //     value: 0
+      //   },
+      //   {
+      //     label: 5,
+      //     color: 'purple',
+      //     value: 0
+      //   },
+      // ];
+      // for (var i = 0; i < dreamsArr.data.length; i++) {
+      //   moodCount += dreamsArr.data[i].mood;
+      //   for (var j = 0; j < moodData.length; j++) {
+      //     if (dreamsArr.data[i].mood === moodData[j].label) {
+      //       moodData[j].value++;
+      //     }
+      //   }
+      // }
+      // console.log(moodData);
+      // vm.averageMood = moodCount / dreamsArr.data.length;
+      //
+      // //GETTING AVERAGE RATING
+      // var ratingCount = 0;
+      // for (var i = 0; i < dreamsArr.data.length; i++) {
+      //   ratingCount += dreamsArr.data[i].rating;
+      // }
+      // vm.averageRating = ratingCount / dreamsArr.data.length;
+      //
+      // //MOOD PIE CHART
+      //
+      // var svg = d3.select("body").append("svg").attr("width", 375).attr("height", 375);
+      //
+      // svg.append("g").attr("id","moodpie");
+      //
+      // pieChartService.draw("moodpie", moodData, 162.5, 162.5, 100);
 
-      //GETTING AVERAGE RATING
-      var ratingCount = 0;
-      for (var i = 0; i < dreamsArr.data.length; i++) {
-        ratingCount += dreamsArr.data[i].rating;
-      }
-      vm.averageRating = ratingCount / dreamsArr.data.length;
-
-      //MOOD PIE CHART
-
+      // function changeData(){
+      // 	gradPie.transition("moodpie", randomData(), 160);
+      // }
 
       //WORD CLOUD
       Filters.all().then(function(filters) {

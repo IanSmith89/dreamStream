@@ -9,8 +9,9 @@ angular.module('dreamstreamApp.services', [])
   //   }
   //   return dreamArr;
   // })
-  .service('DreamParser', [dreamParserFunc])
-  .service('DreamWordsService', [dreamCloudService])
+.service('DreamParser', [dreamParserFunc])
+
+.service('DreamWordsService', [dreamCloudService])
 
 .service('newDreamService', ['$http', newDreamService])
 
@@ -38,7 +39,8 @@ angular.module('dreamstreamApp.services', [])
       return null;
     };
   }])
-  .service('Filters', ['$http', function($http) {
+
+.service('Filters', ['$http', function($http) {
 
     this.all = function() {
       return $http({
@@ -81,6 +83,8 @@ angular.module('dreamstreamApp.services', [])
 .service('signinService', ['$http', signinService])
 
 .service('signupService', ['$http', signupService]);
+
+// .service('pieChartService', [pieChartService]);
 
 function signinService($http) {
   return {
@@ -201,3 +205,40 @@ function dreamCloudService() {
     }
   };
 }
+
+// function pieChartService() {
+//   var gradPie={};
+//
+// 	var pie = d3.layout.pie().sort(null).value(function(d) {return d.value;});
+//
+// 	var createGradients = function(defs, colors, r){
+// 		var gradient = defs.selectAll('.gradient')
+// 			.data(colors).enter().append("radialGradient")
+// 			.attr("id", function(d,i){return "gradient" + i;})
+// 			.attr("gradientUnits", "userSpaceOnUse")
+// 			.attr("cx", "0").attr("cy", "0").attr("r", r).attr("spreadMethod", "pad");
+//
+// 		gradient.append("stop").attr("offset", "0%").attr("stop-color", function(d){ return d;});
+//
+// 		gradient.append("stop").attr("offset", "30%")
+// 			.attr("stop-color",function(d){ return d;})
+// 			.attr("stop-opacity", 1);
+//
+// 		gradient.append("stop").attr("offset", "70%")
+// 			.attr("stop-color",function(d){ return "black";})
+// 			.attr("stop-opacity", 1);
+// 	}
+//   return {
+//     draw: function(id, data, cx, cy, r){
+// 		var gPie = d3.select("#"+id).append("g")
+// 			.attr("transform", "translate(" + cx + "," + cy + ")");
+//
+// 		createGradients(gPie.append("defs"), data.map(function(d){ return d.color; }), 2.5*r);
+//
+// 		gPie.selectAll("path").data(pie(data))
+// 			.enter().append("path").attr("fill", function(d,i){ return "url(#gradient"+ i+")";})
+// 			.attr("d", d3.svg.arc().outerRadius(r))
+// 			.each(function(d) { this._current = d; });
+//   	}
+//   };
+// }

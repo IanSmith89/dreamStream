@@ -1,6 +1,6 @@
 <ion-view view-title="Your Stream">
   <ion-content class="padding">
-    <div class="card" ng-repeat="dream in SC.dreams">
+    <div class="card" ng-repeat="dream in SC.dreams | orderBy:'-dateTime'">
       <div class="item item-text-wrap">
         <h2>
           {{dream.dateTime | date: "EEEE | MMM dd, yyyy"}}
