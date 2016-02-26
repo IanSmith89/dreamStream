@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('dreamstreamApp.services', [])
+.service('dbURL', [dbURL])
 
 .service('DreamParser', [dreamParserFunc])
 
@@ -10,12 +11,11 @@ angular.module('dreamstreamApp.services', [])
 
 .service('scatterService', [scatterService])
 
-.service('Dreams', ['$http', function($http) {
-
+.service('Dreams', ['$http', 'dbURL', function($http, dbURL) {
     this.all = function() {
       return $http({
         method: 'GET',
-        url: 'https://serene-atoll-41100.herokuapp.com/dreams'
+        url: dbURL.url + '/dreams'
       }).then(function(obj) {
         return obj;
       }, function(response) {
@@ -35,12 +35,12 @@ angular.module('dreamstreamApp.services', [])
     };
   }])
 
-.service('Filters', ['$http', function($http) {
+.service('Filters', ['$http', 'dbURL', function($http, dbURL) {
 
     this.all = function() {
       return $http({
         method: 'GET',
-        url: 'http://localhost:3000/filters/all'
+        url: dbURL.url + '/filters/all'
       }).then(function(obj) {
         return obj;
       }, function(response) {
@@ -75,16 +75,23 @@ angular.module('dreamstreamApp.services', [])
   };
 })
 
-.service('signinService', ['$http', signinService])
+.service('signinService', ['$http', 'dbURL', signinService])
 
-.service('signupService', ['$http', signupService]);
+.service('signupService', ['$http', 'dbURL', signupService]);
 
 // .service('pieChartService', [pieChartService]);
 
-function signinService($http) {
+
+function dbURL(){
+  return {
+    url: "https://serene-atoll-41100.herokuapp.com"
+  };
+}
+
+function signinService($http, dbURL) {
   return {
     signin: function(user) {
-      return $http.post('http://localhost:3000/signin', user)
+      return $http.post(dbURL.url + '/signin', user)
         .then(function(response) {
           // console.log('success response');
           return response;
@@ -96,10 +103,10 @@ function signinService($http) {
   };
 }
 
-function signupService($http) {
+function signupService($http, dbURL) {
   return {
     signup: function(user) {
-      return $http.post('http://localhost:3000/signup', user)
+      return $http.post(dbURL.url + '/signup', user)
         .then(function(response) {
           // console.log('success response');
           return response;
@@ -111,10 +118,10 @@ function signupService($http) {
   };
 }
 
-function newDreamService($http) {
+function newDreamService($http, dbURL) {
   return {
     addNewDream: function(dream) {
-      return $http.post('http://localhost:3000/dreams', dream)
+      return $http.post(dbURL.url + '/dreams', dream)
         .then(function(response) {
           return response;
         }, function(error) {
