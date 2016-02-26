@@ -5,8 +5,6 @@ angular.module('dreamstreamApp.services', [])
   .service('DreamParser', [dreamParserFunc])
   .service('DreamWordsService', [dreamCloudService])
 
-.service('signinService', ['$http', signinService])
-
 .service('newDreamService', ['$http', newDreamService])
 
 .service('scatterService', [scatterService])
@@ -76,7 +74,8 @@ angular.module('dreamstreamApp.services', [])
 })
 
 .service('signinService', ['$http', signinService])
-  .service('signupService', ['$http', signupService]);
+
+.service('signupService', ['$http', signupService]);
 
 function signinService($http) {
   return {
@@ -321,7 +320,9 @@ function scatterService(){
                var splitDate = d.dateTime.slice(0,10)
               //  console.log(splitDate)
                return splitDate;
-       });
-     }
-   };
-  }
+          });
+        }
+      };
+    }
+  };
+}

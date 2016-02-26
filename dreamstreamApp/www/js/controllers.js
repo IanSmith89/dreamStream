@@ -7,7 +7,6 @@ angular.module('dreamstreamApp.controllers', [])
   var vm = this;
   vm.loadDreams = Dreams.all()
     .then(function(dreamsArr) {
-      console.log(dreamsArr);
       vm.dreams = dreamsArr.data;
     })
     .catch(function(err) {
@@ -15,9 +14,27 @@ angular.module('dreamstreamApp.controllers', [])
     });
 })
 
-.controller('NewCtrl', function($scope, $state, newDreamService) {
+.controller('NewCtrl', function($scope, $state, newDreamService, $cordovaMedia) {
   var vm = this;
   vm.addNewDream = addNewDream;
+
+  var src = "voiceRecord.wav";
+  var media = $cordovaMedia.newMedia(src);
+  //console.log(media);
+  vm.record = function(){
+    media.startRecord();
+    console.log('clicky');
+    //console.log(media);
+  };
+  vm.stop = function(){
+    media.stopRecord();
+  };
+  vm.play = function(){
+    media.play({
+      numberOfLoops: 2,
+      playAudioWhenScreenIsLocked: false
+    });
+  };
 
   function addNewDream(dream) {
     newDreamService.addNewDream(dream)
@@ -34,6 +51,7 @@ angular.module('dreamstreamApp.controllers', [])
   var vm = this;
   vm.signin = signin;
   vm.signup = signup;
+  vm.signout = signout;
 
   function signin(user) {
     signinService.signin(user).then(function(response) {
@@ -48,14 +66,42 @@ angular.module('dreamstreamApp.controllers', [])
       console.log(response);
     });
   }
+
+  function signout() {
+    localStorage.setItem('Authorization', null);
+    $location.path('/tab/new');
+  }
 })
 
 .controller('DataCtrl', function($scope, DreamWordsService, scatterService, DreamParser, Dreams, Filters) {
+
   var vm = this;
   Dreams.all()
     .then(function(dreamsArr) {
       scatterService.show(dreamsArr.data);
 
+      //GETTING DREAM COUNT
+      vm.dreamCount = dreamsArr.data.length;
+      console.log(dreamsArr);
+
+      //GETTING AVERAGE MOOD
+      var moodCount = 0;
+      for (var i = 0; i < dreamsArr.data.length; i++) {
+        moodCount += dreamsArr.data[i].mood;
+      }
+      vm.averageMood = moodCount / dreamsArr.data.length;
+
+      //GETTING AVERAGE RATING
+      var ratingCount = 0;
+      for (var i = 0; i < dreamsArr.data.length; i++) {
+        ratingCount += dreamsArr.data[i].rating;
+      }
+      vm.averageRating = ratingCount / dreamsArr.data.length;
+
+      //MOOD PIE CHART
+
+
+      //WORD CLOUD
       Filters.all().then(function(filters) {
         // console.log(filters);
         var data = dreamsArr.data;
@@ -81,5 +127,4 @@ angular.module('dreamstreamApp.controllers', [])
     .catch(function(err) {
       console.err(new Error(err));
     });
-
 });
