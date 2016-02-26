@@ -328,8 +328,7 @@ function scatterService(){
         }
       };
     }
-  };
-}
+
 
 // function pieChartService() {
 //   var gradPie={};
