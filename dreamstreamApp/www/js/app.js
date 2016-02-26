@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('dreamstreamApp', ['ionic', 'dreamstreamApp.controllers', 'dreamstreamApp.services'])
+angular.module('dreamstreamApp', ['ngCordova', 'ionic', 'dreamstreamApp.controllers', 'dreamstreamApp.services'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -56,6 +56,7 @@ angular.module('dreamstreamApp', ['ionic', 'dreamstreamApp.controllers', 'dreams
       }
     })
     .state('tab.new', {
+      cache: false,
       url: '/new',
       views: {
         'new': {
@@ -65,11 +66,12 @@ angular.module('dreamstreamApp', ['ionic', 'dreamstreamApp.controllers', 'dreams
       }
     })
     .state('tab.data', {
+      cache: false,
       url: '/data',
       views: {
         'data': {
           templateUrl: 'templates/data.html',
-          controller: 'DataCtrl'
+          controller: 'DataCtrl as Data'
         }
       }
     })

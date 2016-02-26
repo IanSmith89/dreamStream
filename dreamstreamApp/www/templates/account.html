@@ -4,14 +4,15 @@
       <div class="list">
         <label class="item item-input item-floating-label">
           <span class="input-label">Email</span>
-          <input name="email" type="text" placeholder="Email" ng-model="email">
+          <input name="email" type="email" placeholder="Email" ng-model="email">
         </label>
         <label class="item item-input item-floating-label">
           <span class="input-label">Password</span>
-          <input name="password" type="text" placeholder="Password" ng-model="password">
+          <input name="password" type="password" placeholder="Password" ng-model="password">
         </label>
         <button type="submit" class="button">Submit</button>
         <div><a href="#" ng-click="checkSignup=!checkSignup">Sign Up</a></div>
+        <div><a href="#" ng-click="Account.signout()">Log Out</a></div>
       </div>
     </form>
     <form ng-show="checkSignup" ng-submit="Account.signup({firstName: SUfirstName, lastName: SUlastName, email: SUemail, password: SUpassword})">
@@ -26,15 +27,15 @@
         </label>
         <label class="item item-input item-floating-label">
           <span class="input-label">Email</span>
-          <input name="email" type="text" placeholder="Email" ng-model="SUemail">
+          <input name="email" type="email" placeholder="Email" ng-model="SUemail">
         </label>
         <label class="item item-input item-floating-label">
           <span class="input-label">Password</span>
-          <input name="password" type="text" placeholder="Password" ng-model="SUpassword">
+          <input name="password" type="password" placeholder="Password" ng-model="SUpassword">
         </label>
         <label class="item item-input item-floating-label">
           <span class="input-label">Confirm Password</span>
-          <input name="confirmPassword" type="text" placeholder="Confirm password" ng-model="SUconfirmPassword">
+          <input name="confirmPassword" type="password" placeholder="Confirm password" ng-model="SUconfirmPassword">
         </label>
         <button type="submit" class="button">Submit</button>
         <div><a href="#" ng-click="checkSignup=!checkSignup">Sign In</a></div>

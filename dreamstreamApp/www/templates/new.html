@@ -1,7 +1,8 @@
 <ion-view view-title="New Dream">
   <ion-content class="padding center">
-    <h3>TODAY'S DATE GOES HERE</h3>
-    <button class='button'>Record New</button>
+    <button ng-click="New.record()" class='button button-block'>Record New</button>
+    <button ng-click="New.stop()" class='button button-block'>Stop Record</button>
+    <button ng-click="New.play()" class='button button-block'>Play Recording</button>
 
     <form ng-submit="New.addNewDream(dream)">
 
@@ -9,23 +10,27 @@
       <label class='item item-input'>
         <textarea name='content' ng-model="dream.content" id='dream-input' placeholder='Describe your dream'></textarea>
       </label>
-      <label>Mood</label>
+      <label>Mood: {{dream.mood}}</label>
       <div class='item range'>
         <i class='icon ion-sad-outline'></i>
         <input type='range' min='1' max='5' value='3' step='1' name="mood" ng-model="dream.mood" id='mood'/>
         <i class='icon ion-happy'></i>
       </div>
-      <label>Rating</label>
+      <label>Rating: {{dream.rating}}</label>
       <div class='item range'>
         <i class='icon ion-thumbsdown'></i>
         <input type='range' min='1' max='5' value='3' step='1' name='rating' ng-model='dream.rating' id='rating'/>
         <i class='icon ion-thumbsup'></i>
       </div>
-      <label>Sleep Duration</label>
+      <label>Sleep Duration: {{dream.duration}} hours</label>
       <div class='item range'>
-        <h2>0</h2>
+        <div class="num-holder">
+          <h2>0</h2>
+        </div>
         <input type='range' min='0' max='12' value='6' step='1' name='duration' ng-model='dream.duration' id='duration'/>
-        <h2>12</h2>
+        <div class="num-holder">
+          <h2>12</h2>
+        </div>
       </div>
     </div>
     <button class='button button-block' type='submit'>Submit</button>
