@@ -1,76 +1,16 @@
 'use strict';
 
 angular.module('dreamstreamApp.services', [])
-  .service('DreamParser', function(dreamStr)
-    {
-      dreamStr = dreamStr.replace(/[,.:;"'|!@#$%^&*()_+=<>-]/g, '');
-      var dreamArr = dreamStr.split(' ');
-      for(var i=0; i < dreamArr.length; i++)
-      {
-        dreamArr[i] = dreamArr[i].toLowerCase();
-      }
-      return dreamArr;
-    }
-  )
-  .factory('DreamWordsFactory', function() {
-    var wordArray = [
-      "Hello",
-      "world",
-      "normally",
-      "you",
-      "want",
-      "more",
-      "words",
-      "than",
-      "this",
-      "make",
-      "a",
-      "super",
-      "long",
-      "want",
-      "more",
-      "words",
-      "than",
-      "this",
-      "make",
-      "a",
-      "super",
-      "long",
-      "long",
-      "long",
-      "long",
-      "long"
-    ];
-    return {
-      get: function(){
-        // return wordArray;
-        var fill = d3.scale.category20();
-        d3.layout.cloud().size([300, 300]).words(wordArray.map(function(d) {
-          return {
-            text: d,
-            size: 10 + Math.random() * 90
-          };
-        })).rotate(function() {
-          return ~~(Math.random() * 2) * 90;
-        }).font("Impact").fontSize(function(d) {
-          return d.size;
-        }).on("end", draw).start();
-
-        function draw(words) {
-          d3.select("#word-cloud").append("svg").attr("width", 300).attr("height", 300).append("g").attr("transform", "translate(150,150)").selectAll("text").data(words).enter().append("text").style("font-size", function(d) {
-            return d.size + "px";
-          }).style("font-family", "Impact").style("fill", function(d, i) {
-            return fill(i);
-          }).attr("text-anchor", "middle").attr("transform", function(d) {
-            return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-          }).text(function(d) {
-            return d.text;
-          });
-        }
-      }
-    };
-  })
-
+  // .service('DreamParser', function(dreamStr) {
+  //   dreamStr = dreamStr.replace(/[,.:;"'|!@#$%^&*()_+=<>-]/g, '');
+  //   var dreamArr = dreamStr.split(' ');
+  //   for (var i = 0; i < dreamArr.length; i++) {
+  //     dreamArr[i] = dreamArr[i].toLowerCase();
+  //   }
+  //   return dreamArr;
+  // })
+  .service('DreamParser', [dreamParserFunc])
+  .service('DreamWordsService', [dreamCloudService])
 
 .service('signinService', ['$http', signinService])
 
@@ -83,10 +23,10 @@ angular.module('dreamstreamApp.services', [])
         method: 'GET',
         url: 'http://localhost:3000/dreams'
       }).then(function(obj) {
-          return obj;
-        }, function(response) {
-          console.error(new Error(response));
-        });
+        return obj;
+      }, function(response) {
+        console.error(new Error(response));
+      });
     };
     this.remove = function(dream) {
       dreams.splice(dreams.indexOf(dream), 1);
@@ -99,26 +39,39 @@ angular.module('dreamstreamApp.services', [])
       }
       return null;
     };
-}])
+  }])
+  .service('Filters', ['$http', function($http) {
 
-.service("AuthInterceptor", function($location, $q){
+    this.all = function() {
+      return $http({
+        method: 'GET',
+        url: 'http://localhost:3000/filters/all'
+      }).then(function(obj) {
+        return obj;
+      }, function(response) {
+        console.error(new Error(response));
+      });
+    };
+  }])
+
+.service("AuthInterceptor", function($location, $q) {
   return {
-    request: function(config){
+    request: function(config) {
       // prevent browser bar tampering for /api routes
       config.headers['X-Requested-With'] = 'XMLHttpRequest';
       var token = localStorage.getItem("Authorization");
-      if(token)
+      if (token)
         config.headers.Authorization = token;
       return $q.resolve(config);
     },
-    responseError: function(err){
+    responseError: function(err) {
       // if you mess around with the token, log them out and destroy it
-      if(err.data === "invalid token" || err.data === "invalid signature" || err.data === "jwt malformed"){
+      if (err.data === "invalid token" || err.data === "invalid signature" || err.data === "jwt malformed") {
         $location.path("/signin");
         return $q.reject(err);
       }
       // if you try to access a user who is not yourself
-      if(err.status === 401){
+      if (err.status === 401) {
         $location.path('/signin');
         return $q.reject(err);
       }
@@ -128,16 +81,16 @@ angular.module('dreamstreamApp.services', [])
 })
 
 .service('signinService', ['$http', signinService])
-.service('signupService', ['$http', signupService]);
+  .service('signupService', ['$http', signupService]);
 
-function signinService($http){
+function signinService($http) {
   return {
-    signin: function(user){
+    signin: function(user) {
       return $http.post('http://localhost:3000/signin', user)
-        .then(function(response){
+        .then(function(response) {
           // console.log('success response');
           return response;
-        }, function(error){
+        }, function(error) {
           // console.log('service errors');
           return error;
         });
@@ -145,14 +98,14 @@ function signinService($http){
   };
 }
 
-function signupService($http){
+function signupService($http) {
   return {
-    signup: function(user){
+    signup: function(user) {
       return $http.post('http://localhost:3000/signup', user)
-        .then(function(response){
+        .then(function(response) {
           // console.log('success response');
           return response;
-        }, function(response){
+        }, function(response) {
           // console.log('service errors');
           console.log(response);
         });
@@ -160,15 +113,95 @@ function signupService($http){
   };
 }
 
-function newDreamService($http){
+function newDreamService($http) {
   return {
-    addNewDream: function(dream){
+    addNewDream: function(dream) {
       return $http.post('http://localhost:3000/dreams', dream)
-      .then(function(response){
-        return response;
-      }, function(error){
-        return error;
-      });
+        .then(function(response) {
+          return response;
+        }, function(error) {
+          return error;
+        });
     }
   };
+}
+
+function dreamParserFunc() {
+  return {
+    parse: function(dreamStr) {
+      dreamStr = dreamStr.replace(/[,.:;"'|!@#$%^&*()\?_+=<>-]/g, '');
+      var dreamArr = dreamStr.split(' ');
+      for (var i = 0; i < dreamArr.length; i++) {
+        dreamArr[i] = dreamArr[i].toLowerCase();
+      }
+      return dreamArr;
+    }
+  };
+}
+
+function dreamCloudService() {
+  return {
+    draw: function(arr) {
+      // console.log(arr);
+      function wordObj(arr) {
+        var obj = {};
+        arr.forEach(function(el) {
+          obj[el] = 1;
+        });
+        arr.sort();
+        for (var i = 1; i < arr.length; i++) {
+          if (arr[i - 1] === arr[i]) {
+            obj[arr[i]]++;
+          }
+        }
+        return obj;
+      }
+
+      var newObj = wordObj(arr);
+
+      //Remove duplicates from array
+      var uniqueArray = arr.filter(function(item, pos, self) {
+        return self.indexOf(item) === pos;
+      });
+      var fill = d3.scale.category20();
+      //Create word cloud
+      d3.layout.cloud().size([350, 350])
+        .words(uniqueArray.map(function(d) {
+          var maxCount = 0;
+          for (var item in newObj) {
+            if (newObj[item] > maxCount) {
+              maxCount = newObj[item];
+            }
+          }
+
+          return {
+            text: d,
+            size: (95 * (newObj[d] / maxCount)) + 5
+          };
+        }))
+        .rotate(function() {
+          return ~~(Math.random() * 2) * 90;
+        })
+        .font("Impact").fontSize(function(d) {
+          // console.log(d)
+          return d.size;
+        })
+        .on("end", draw).start();
+
+      function draw(words) {
+        d3.select("#word-cloud").append("svg").attr("width", 350).attr("height", 350).append("g").attr("transform", "translate(175,175)").selectAll("text").data(words).enter().append("text").style("font-size", function(d) {
+          return d.size + "px";
+        }).style("font-family", "Impact").style("fill", function(d, i) {
+          return fill(i);
+        }).attr("text-anchor", "middle").attr("transform", function(d) {
+          return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+        }).text(function(d) {
+          return d.text;
+        });
+      }
+    }
+  }
+
+
+
 }
