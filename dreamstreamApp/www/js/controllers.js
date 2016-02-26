@@ -50,10 +50,12 @@ angular.module('dreamstreamApp.controllers', [])
   }
 })
 
-.controller('DataCtrl', function($scope, DreamWordsService, DreamParser, Dreams, Filters) {
+.controller('DataCtrl', function($scope, DreamWordsService, scatterService, DreamParser, Dreams, Filters) {
   var vm = this;
   Dreams.all()
     .then(function(dreamsArr) {
+      scatterService.show(dreamsArr.data);
+
       Filters.all().then(function(filters) {
         // console.log(filters);
         var data = dreamsArr.data;
