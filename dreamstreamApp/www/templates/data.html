@@ -1,13 +1,28 @@
 <ion-view view-title="Data Visualizations">
   <ion-content class="padding center">
     <h3>Word Cloud</h3>
-    <div id='word-cloud'>
+    <div id='word-cloud'></div>
+    <div class='row'>
+      <div class='list col center' ng-init='filterArray = Data.filterList()'>
+        {{filterArray}}
+        <p ng-repeat='item in filterArray'>
+          {{item.phrase}}
+        </p>
+        <form ng-submit='Data.submitFilter({content:filterInput})'>
+          <label class="item item-input" for='filterInput'>
+            <h2 class='input-label'>Add filter:</h2>
+            <input ng-model='filterInput' name='filterInput' placeholder='' id='filterInput' type='text'/>
+          </label>
+          <button type="submit" class="button">Add</button>
+        </form>
+      </div>
     </div>
-
     <div class="row">
       <div class="col center">
         <h2>
-          You've logged {{Data.dreamCount}} dreams
+          You've logged
+          {{Data.dreamCount}}
+          dreams
         </h2>
       </div>
     </div>
@@ -21,7 +36,8 @@
     <div class="row">
       <div class="col center">
         <h4>
-          {{Data.averageMood}} out of 5
+          {{Data.averageMood}}
+          out of 5
         </h4>
       </div>
     </div>
@@ -35,10 +51,11 @@
     <div class="row">
       <div class="col center">
         <h4>
-          {{Data.averageRating}} out of 5
+          {{Data.averageRating}}
+          out of 5
         </h4>
       </div>
-    </div>    
+    </div>
 
     <div id="scatter-load"></div>
 
