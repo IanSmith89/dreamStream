@@ -12,6 +12,7 @@
         </label>
         <button type="submit" class="button">Submit</button>
         <div><a href="#" ng-click="checkSignup=!checkSignup">Sign Up</a></div>
+        <div><a href="#" ng-click="Account.signout()">Log Out</a></div>
       </div>
     </form>
     <form ng-show="checkSignup" ng-submit="Account.signup({firstName: SUfirstName, lastName: SUlastName, email: SUemail, password: SUpassword})">
@@ -36,7 +37,7 @@
           <span class="input-label">Confirm Password</span>
           <input name="confirmPassword" type="password" placeholder="Confirm password" ng-model="SUconfirmPassword">
         </label>
-        <button type="submit" class="button">Submit</button>
+        <button type="submit" class="button" ng-click='checkSignup=!checkSignup'>Submit</button>
         <div><a href="#" ng-click="checkSignup=!checkSignup">Sign In</a></div>
       </div>
     </form>
