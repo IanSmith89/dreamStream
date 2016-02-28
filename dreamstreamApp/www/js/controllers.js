@@ -74,9 +74,15 @@ angular.module('dreamstreamApp.controllers', [])
   }
 })
 
-.controller('DataCtrl', function($scope, DreamWordsService, scatterService, DreamParser, Dreams, Filters) {
+.controller('DataCtrl', function($scope, dreamAnalysisChart, highchartsNG, DreamAnalysis,DreamWordsService, scatterService, DreamParser, Dreams, Filters) {
 
   var vm = this;
+
+  vm.getAnalysis = function()
+  {
+    return dreamAnalysisChart;
+  };
+
   Dreams.all()
     .then(function(dreamsArr) {
       scatterService.show(dreamsArr.data);

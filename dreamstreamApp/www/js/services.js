@@ -5,6 +5,10 @@ angular.module('dreamstreamApp.services', [])
 
 .service('DreamParser', ['dbURL', dreamParserFunc])
 
+.service('DreamAnalysis', ['$http', 'dbURL', dreamAnalysisFunc])
+
+.service('dreamAnalysisChart', ['DreamAnalysis', 'highchartsNG', dreamAnalysisChart])
+
 .service('DreamWordsService', ['dbURL', dreamCloudService])
 
 .service('newDreamService', ['$http', 'dbURL', newDreamService])
@@ -86,6 +90,363 @@ function dbURL(){
   return {
     url: "https://serene-atoll-41100.herokuapp.com"
   };
+}
+
+//Dream Analysis
+
+function dreamAnalysisFunc($http, dbURL) {
+  return {
+    analyze: function() {
+      return $http.get(dbURL.url + '/analyze')
+        .then(function(response) {
+          // console.log('success response');
+          return response;
+        }, function(err) {
+          // console.log('service errors');
+          console.log(err);
+        });
+    }
+  };
+}
+
+function dreamAnalysisChart(DreamAnalysis, highchartsNG)
+{
+    //var analysisData = DreamAnalysis.analyze();
+    var analysisData = [
+  {
+    "id": "Openness",
+    "name": "Openness",
+    "category": "personality",
+    "percentage": 0.29889988660746364,
+    "sampling_error": 0.0646541906,
+    "children": [
+      {
+        "id": "Adventurousness",
+        "name": "Adventurousness",
+        "category": "personality",
+        "percentage": 0.3099662476406275,
+        "sampling_error": 0.053974814399999994
+      },
+      {
+        "id": "Artistic interests",
+        "name": "Artistic interests",
+        "category": "personality",
+        "percentage": 0.011499688623314646,
+        "sampling_error": 0.10983142039999999
+      },
+      {
+        "id": "Emotionality",
+        "name": "Emotionality",
+        "category": "personality",
+        "percentage": 0.3137801800575866,
+        "sampling_error": 0.050517685900000005
+      },
+      {
+        "id": "Imagination",
+        "name": "Imagination",
+        "category": "personality",
+        "percentage": 0.537657504829199,
+        "sampling_error": 0.0681367154
+      },
+      {
+        "id": "Intellect",
+        "name": "Intellect",
+        "category": "personality",
+        "percentage": 0.5039773478003599,
+        "sampling_error": 0.0598227851
+      },
+      {
+        "id": "Liberalism",
+        "name": "Authority-challenging",
+        "category": "personality",
+        "percentage": 0.19125168323553338,
+        "sampling_error": 0.0878672088
+      }
+    ]
+  },
+  {
+    "id": "Conscientiousness",
+    "name": "Conscientiousness",
+    "category": "personality",
+    "percentage": 0.42910769911127244,
+    "sampling_error": 0.0807477607,
+    "children": [
+      {
+        "id": "Achievement striving",
+        "name": "Achievement striving",
+        "category": "personality",
+        "percentage": 1,
+        "sampling_error": 0.1039639928
+      },
+      {
+        "id": "Cautiousness",
+        "name": "Cautiousness",
+        "category": "personality",
+        "percentage": 0.6705834156878299,
+        "sampling_error": 0.0962437979
+      },
+      {
+        "id": "Dutifulness",
+        "name": "Dutifulness",
+        "category": "personality",
+        "percentage": 0.5372093945624348,
+        "sampling_error": 0.064982677
+      },
+      {
+        "id": "Orderliness",
+        "name": "Orderliness",
+        "category": "personality",
+        "percentage": 0.5021499641613739,
+        "sampling_error": 0.0739729013
+      },
+      {
+        "id": "Self-discipline",
+        "name": "Self-discipline",
+        "category": "personality",
+        "percentage": 0.060992693368391894,
+        "sampling_error": 0.0495376856
+      },
+      {
+        "id": "Self-efficacy",
+        "name": "Self-efficacy",
+        "category": "personality",
+        "percentage": 0.07862453443639145,
+        "sampling_error": 0.0971877116
+      }
+    ]
+  },
+  {
+    "id": "Extraversion",
+    "name": "Extraversion",
+    "category": "personality",
+    "percentage": 0.16674295198051417,
+    "sampling_error": 0.0604103701,
+    "children": [
+      {
+        "id": "Activity level",
+        "name": "Activity level",
+        "category": "personality",
+        "percentage": 1,
+        "sampling_error": 0.0825107204
+      },
+      {
+        "id": "Assertiveness",
+        "name": "Assertiveness",
+        "category": "personality",
+        "percentage": 0.9163877158975248,
+        "sampling_error": 0.08782762670000001
+      },
+      {
+        "id": "Cheerfulness",
+        "name": "Cheerfulness",
+        "category": "personality",
+        "percentage": 0.5915691825969397,
+        "sampling_error": 0.11047754030000001
+      },
+      {
+        "id": "Excitement-seeking",
+        "name": "Excitement-seeking",
+        "category": "personality",
+        "percentage": 0.3395071867167182,
+        "sampling_error": 0.0843126178
+      },
+      {
+        "id": "Friendliness",
+        "name": "Outgoing",
+        "category": "personality",
+        "percentage": 0.5042122996508643,
+        "sampling_error": 0.0793638476
+      },
+      {
+        "id": "Gregariousness",
+        "name": "Gregariousness",
+        "category": "personality",
+        "percentage": 0.5946082120343356,
+        "sampling_error": 0.0606254611
+      }
+    ]
+  },
+  {
+    "id": "Agreeableness",
+    "name": "Agreeableness",
+    "category": "personality",
+    "percentage": 0.6415230040413935,
+    "sampling_error": 0.10132855,
+    "children": [
+      {
+        "id": "Altruism",
+        "name": "Altruism",
+        "category": "personality",
+        "percentage": 0.44594272939822116,
+        "sampling_error": 0.0748349619
+      },
+      {
+        "id": "Cooperation",
+        "name": "Cooperation",
+        "category": "personality",
+        "percentage": 0.2327733854483525,
+        "sampling_error": 0.0835296811
+      },
+      {
+        "id": "Modesty",
+        "name": "Modesty",
+        "category": "personality",
+        "percentage": 0.31130619777202173,
+        "sampling_error": 0.0596950491
+      },
+      {
+        "id": "Morality",
+        "name": "Uncompromising",
+        "category": "personality",
+        "percentage": 0.2220234966939557,
+        "sampling_error": 0.066485579
+      },
+      {
+        "id": "Sympathy",
+        "name": "Sympathy",
+        "category": "personality",
+        "percentage": 0.1247168649323529,
+        "sampling_error": 0.1025469704
+      },
+      {
+        "id": "Trust",
+        "name": "Trust",
+        "category": "personality",
+        "percentage": 0.19470602712638185,
+        "sampling_error": 0.0605325694
+      }
+    ]
+  },
+  {
+    "id": "Neuroticism",
+    "name": "Emotional range",
+    "category": "personality",
+    "percentage": 0.734429564489743,
+    "sampling_error": 0.0958079045,
+    "children": [
+      {
+        "id": "Anger",
+        "name": "Fiery",
+        "category": "personality",
+        "percentage": 0.913194799854024,
+        "sampling_error": 0.0986774057
+      },
+      {
+        "id": "Anxiety",
+        "name": "Prone to worry",
+        "category": "personality",
+        "percentage": 0.7980462446481974,
+        "sampling_error": 0.0584436788
+      },
+      {
+        "id": "Depression",
+        "name": "Melancholy",
+        "category": "personality",
+        "percentage": 0.8207191567911146,
+        "sampling_error": 0.0626535466
+      },
+      {
+        "id": "Immoderation",
+        "name": "Immoderation",
+        "category": "personality",
+        "percentage": 0.16020127969907594,
+        "sampling_error": 0.056264441
+      },
+      {
+        "id": "Self-consciousness",
+        "name": "Self-consciousness",
+        "category": "personality",
+        "percentage": 1,
+        "sampling_error": 0.0605791527
+      },
+      {
+        "id": "Vulnerability",
+        "name": "Susceptible to stress",
+        "category": "personality",
+        "percentage": 0.8905257035232674,
+        "sampling_error": 0.0902259525
+      }
+    ]
+  }
+];
+
+    var categoryData = [];
+    var traitData = [];
+    var colors = ['red', 'blue', 'green', 'purple', 'grey', 'lightblue', 'lightgreen'];
+     //var colors = highchartsNG.getOptions().colors;
+    // Build the data arrays
+   for (var i = 0; i < analysisData.length; i ++) {
+
+       // add browser data
+       categoryData.push({
+           name: analysisData[i].id,
+           y: analysisData[i].percentage,
+           color: colors[i]
+       });
+
+       for(var j=0; j < analysisData[i].children.length; j++)
+       {
+         traitData.push({
+             name: analysisData[i].children[j].id,
+             y: analysisData[i].children[j].percentage,
+             color: colors[i]
+         });
+       }
+
+     }
+
+     console.log(categoryData);
+
+    return {
+      options: {
+        chart: {
+            type: 'pie'
+        },
+        title: {
+            text: 'Dream Analysis'
+        },
+        subtitle: {
+            text: 'Source: DreamStream via IBM Watson'
+        },
+        yAxis: {
+            title: {
+                text: 'Total percent Dreams'
+            }
+        },
+        plotOptions: {
+            pie: {
+                shadow: false,
+                center: ['50%', '50%']
+            }
+        },
+        tooltip: {
+            valueSuffix: '%'
+        },
+      },
+        series: [{
+            name: 'Categories',
+            data: categoryData,
+            size: '60%',
+            dataLabels: {
+                formatter: function () {
+                    return this.y > 0.05 ? this.point.name : null;
+                },
+                color: '#ffffff',
+                distance: -30
+            }
+        }, {
+            name: 'Traits',
+            data: traitData,
+            size: '80%',
+            innerSize: '60%',
+            dataLabels: {
+                formatter: function () {
+                    // display only if larger than 1
+                    return this.y > 0.1 ? '<b>' + this.point.name + ':</b> ' + this.y + '%' : null;
+                }
+            }
+        }]
+    };
 }
 
 function signinService($http, dbURL) {
