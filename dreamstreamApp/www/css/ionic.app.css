@@ -9759,10 +9759,20 @@ a.button {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1.5px; }
+  .card h3, .item h3 {
+    color: #275675;
+    font-size: 1.25em;
+    font-weight: 900;
+    letter-spacing: 3px; }
   .card h4, .item h4 {
     text-align: right;
     color: #275675;
     font-size: 1em;
+    font-weight: 300;
+    letter-spacing: 3px; }
+  .card h5, .item h5 {
+    color: #275675;
+    font-size: 0.75em;
     font-weight: 300;
     letter-spacing: 3px; }
   .card textarea, .item textarea {
@@ -9804,7 +9814,7 @@ a.button {
 .new-icon {
   color: #275675; }
 
-.new-dream-button, .signin-button, .signup-button {
+.new-dream-button, .signin-button, .signup-button, .reverse-order-button {
   background: #275675;
   color: #fffdf4;
   font-size: 1.25em;

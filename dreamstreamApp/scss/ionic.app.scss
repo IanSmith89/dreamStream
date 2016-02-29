@@ -71,10 +71,24 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
     letter-spacing: 1.5px;
   }
 
+  h3 {
+    color: $slategrey;
+    font-size: 1.25em;
+    font-weight: 900;
+    letter-spacing: 3px;
+  }
+
   h4 {
     text-align: right;
     color: $slategrey;
     font-size: 1em;
+    font-weight: 300;
+    letter-spacing: 3px;
+  }
+
+  h5 {
+    color: $slategrey;
+    font-size: 0.75em;
     font-weight: 300;
     letter-spacing: 3px;
   }
@@ -130,7 +144,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
   color: $slategrey;
 }
 
-.new-dream-button, .signin-button, .signup-button {
+.new-dream-button, .signin-button, .signup-button, .reverse-order-button {
   background: $slategrey;
   color: $offwhite;
   font-size: 1.25em;
