@@ -6,12 +6,12 @@
             Filter By
           </div>
           <select name="filterSelect" id="filterSelect" ng-model="filterSelect">
-            <option value="dateTime">Date</option>
+            <option value="dateTime" selected>Date</option>
             <option value="mood">Mood</option>
             <option value="rating">Rating</option>
           </select>
         </label>
-        <button class="button button-block" name="button" ng-click="orderSelect = !orderSelect">Reverse Order</button>
+        <button class="button button-block reverse-order-button" name="button" ng-click="orderSelect = !orderSelect">Reverse Order</button>
       </div>
       <div class="card" ng-repeat="dream in SC.dreams | orderBy:filterSelect:orderSelect">
       <div class="item item-text-wrap">
@@ -26,18 +26,21 @@
         <hr />
         <div class="row">
           <div class="col center">
+            <h3>{{dream.mood}}</h3>
             <h5>
-              MOOD: {{dream.mood}}
+              MOOD
             </h5>
           </div>
           <div class="col center">
+            <h3>{{dream.rating}}</h3>
             <h5>
-              RATING: {{dream.rating}}
+              RATING
             </h5>
           </div>
           <div class="col center">
+            <h3>{{dream.duration}}</h3>
             <h5>
-              DURATION: {{dream.duration}}
+              DURATION
             </h5>
           </div>
         </div>
