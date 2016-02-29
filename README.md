@@ -6,6 +6,8 @@ Live site:
 
 Demo screencast:
 
+Backend repo: https://github.com/IanSmith89/dreamStream_backend
+
 ## Description
 
 Our dream tracker application helps you keep track of your dreams. You can describe the each dream and give it a rating. You can also track your mood (overall life stress) at that time and the duration of sleep.
