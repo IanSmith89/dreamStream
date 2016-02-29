@@ -57,7 +57,9 @@ angular.module('dreamstreamApp.controllers', [])
     signinService.signin(user).then(function(response) {
       // console.log(response);
       localStorage.setItem('Authorization', 'Bearer ' + response.data.token);
+      console.log(localStorage.Authorization);
       $location.path('/tab/stream');
+      vm.loggedStatus = true;
     });
   }
 
@@ -74,20 +76,21 @@ angular.module('dreamstreamApp.controllers', [])
   function signout() {
     localStorage.setItem('Authorization', null);
     $location.path('/tab/new');
+    vm.loggedStatus = false;
   }
 })
 
-.controller('DataCtrl', function($scope, $state, dreamAnalysisChart, highchartsNG, DreamAnalysis,DreamWordsService, scatterService, DreamParser, Dreams, Filters, CustomFilters) {
+.controller('DataCtrl', function($scope, $state, dreamAnalysisChart, highchartsNG, DreamAnalysis, DreamWordsService, scatterService, DreamParser, Dreams, Filters, CustomFilters) {
 
   var vm = this;
 
-  vm.pageReload = function()
-  {
-    $state.go($state.current, {}, {reload:true});
+  vm.pageReload = function() {
+    $state.go($state.current, {}, {
+      reload: true
+    });
   };
 
-  vm.getAnalysis = function()
-  {
+  vm.getAnalysis = function() {
     return dreamAnalysisChart;
   };
 
@@ -101,33 +104,27 @@ angular.module('dreamstreamApp.controllers', [])
 
       //GETTING AVERAGE MOOD
       var moodCount = 0;
-      var moodData = [
-        {
-          label: 1,
-          color: 'red',
-          value: 0
-        },
-        {
-          label: 2,
-          color: 'blue',
-          value: 0
-        },
-        {
-          label: 3,
-          color: 'yellow',
-          value: 0
-        },
-        {
-          label: 4,
-          color: 'green',
-          value: 0
-        },
-        {
-          label: 5,
-          color: 'purple',
-          value: 0
-        },
-      ];
+      var moodData = [{
+        label: 1,
+        color: 'red',
+        value: 0
+      }, {
+        label: 2,
+        color: 'blue',
+        value: 0
+      }, {
+        label: 3,
+        color: 'yellow',
+        value: 0
+      }, {
+        label: 4,
+        color: 'green',
+        value: 0
+      }, {
+        label: 5,
+        color: 'purple',
+        value: 0
+      }, ];
       for (var i = 0; i < dreamsArr.data.length; i++) {
         moodCount += dreamsArr.data[i].mood;
         for (var j = 0; j < moodData.length; j++) {
