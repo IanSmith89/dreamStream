@@ -43,13 +43,12 @@
       </div>
     </div>
     <hr />
-
     <div id="scatter-load"></div>
 
-    <div class="row" ng-init="chartConfig={}; showAnalysis=false">
+    <div class="row" ng-init="showAnalysis=false">
       <div class="col center">
-          <button ng-hide="showAnalysis" ng-click="chartConfig=Data.getAnalysis()(); showAnalysis=true;" type="button" name="button">Get Analysis</button>
-          <highchart ng-show="showAnalysis" id="analysisChart" config="chartConfig"></highchart>
+          <button ng-hide="showAnalysis" ng-click="Data.analysisChartData=Data.getAnalysis(); showAnalysis=true;" type="button" name="button">Get Analysis</button>
+          <highchart ng-show="showAnalysis" id="analysisChart" config="Data.analysisChartData"></highchart>
       </div>
     </div>
 

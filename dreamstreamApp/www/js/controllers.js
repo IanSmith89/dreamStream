@@ -80,6 +80,7 @@ angular.module('dreamstreamApp.controllers', [])
 .controller('DataCtrl', function($scope, $state, dreamAnalysisChart, highchartsNG, DreamAnalysis,DreamWordsService, scatterService, DreamParser, Dreams, Filters, CustomFilters) {
 
   var vm = this;
+  vm.analysisChartData = {};
 
   vm.pageReload = function()
   {
@@ -88,7 +89,117 @@ angular.module('dreamstreamApp.controllers', [])
 
   vm.getAnalysis = function()
   {
-    return dreamAnalysisChart;
+    dreamAnalysisChart().then(function(inData){
+        //console.log(inData);
+        var analysisData = inData.data;
+        //console.log(analysisData);
+        var categoryData = [];
+        var traitData = [];
+        var colors = ['#FFC300', '#00B3C5', '#A0DAEA', '#0B3041', '#3D79A1', 'blue', 'red'];
+        // Build the data arrays
+        var categoryMax = 0;
+        var fullMax = 0;
+        var traitMax = [];
+        for (var i = 0; i < analysisData.length; i ++) {
+          categoryMax += analysisData[i].percentage;
+          for(var j=0; j < analysisData[i].children.length; j++)
+          {
+            if(traitMax[i])
+            {
+              traitMax[i] += analysisData[i].children[j].percentage;
+            }
+            else {
+              traitMax[i] = analysisData[i].children[j].percentage;
+            }
+          }
+        }
+        for(var i=0; i < traitMax.length; i++)
+        {
+          fullMax += traitMax[i];
+        }
+
+       for (var i = 0; i < analysisData.length; i ++) {
+
+           // add browser data
+           categoryData.push({
+               name: analysisData[i].id,
+               y: parseFloat(((traitMax[i] / fullMax) * 100).toFixed(2)),
+               color: colors[i]
+           });
+
+           for(var j=0; j < analysisData[i].children.length; j++)
+           {
+             traitData.push({
+                 name: analysisData[i].children[j].id,
+                 y: parseFloat(((analysisData[i].children[j].percentage / fullMax) * 100).toFixed(2)),
+                 color: colors[i]
+             });
+           }
+
+         }
+
+         //console.log(categoryData);
+
+        vm.analysisChartData = {
+          options: {
+            chart: {
+                backgroundColor: '#275675',
+                type: 'pie',
+                width: '375',
+                height: '375'
+            },
+            title: {
+                style: {
+                   color: '#FFFDF4',
+                },
+                text: 'Dream Analysis'
+            },
+            subtitle: {
+              style: {
+                 color: '#FFFDF4',
+              },
+                text: 'Source: DreamStream via IBM Watson'
+            },
+            yAxis: {
+                title: {
+                    text: 'Total percent Dreams'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    shadow: false,
+                    center: ['50%', '50%']
+                }
+            },
+            tooltip: {
+                valueSuffix: '%'
+            },
+          },
+            series: [{
+                name: 'Categories',
+                data: categoryData,
+                size: '60%',
+                dataLabels: {
+                    formatter: function () {
+                        return this.y > 5 ? this.point.name : null;
+                    },
+                    color: '#FFFDF4',
+                    distance: -30
+                }
+            }, {
+                name: 'Traits',
+                data: traitData,
+                size: '80%',
+                innerSize: '60%',
+                dataLabels: {
+                    formatter: function () {
+                        // display only if larger than 1
+                        return this.y > 100 ? '<b>' + this.point.name + ':</b> ' + this.y + '%' : null;
+                    }
+                }
+            }]
+          };
+        });
   };
 
   Dreams.all()
