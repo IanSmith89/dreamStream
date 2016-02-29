@@ -2,9 +2,7 @@
 
 A dream tracker and analyzer brought to you by the Dream Team!
 
-Live site: 
-
-Demo screencast:
+Demo screencast: https://vimeo.com/157201586
 
 Backend repo: https://github.com/IanSmith89/dreamStream_backend
 
