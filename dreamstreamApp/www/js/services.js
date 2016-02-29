@@ -374,7 +374,7 @@ function dreamAnalysisChart(DreamAnalysis, highchartsNG)
 
     var categoryData = [];
     var traitData = [];
-    var colors = ['lightgreen', 'lightblue', 'grey', 'orange', 'rgb(214, 147, 224)', 'blue', 'red'];
+    var colors = ['rgb(45, 184, 221)', 'rgb(160, 219, 114)', 'rgb(131, 131, 131)', 'rgb(231, 151, 67)', 'rgb(214, 147, 224)', 'blue', 'red'];
     // Build the data arrays
     var categoryMax = 0;
     var fullMax = 0;
@@ -417,7 +417,7 @@ function dreamAnalysisChart(DreamAnalysis, highchartsNG)
 
      }
 
-     console.log(categoryData);
+     //console.log(categoryData);
 
     return {
       options: {
@@ -464,7 +464,7 @@ function dreamAnalysisChart(DreamAnalysis, highchartsNG)
             dataLabels: {
                 formatter: function () {
                     // display only if larger than 1
-                    return this.y > 1 ? '<b>' + this.point.name + ':</b> ' + this.y + '%' : null;
+                    return this.y > 100 ? '<b>' + this.point.name + ':</b> ' + this.y + '%' : null;
                 }
             }
         }]

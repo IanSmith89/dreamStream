@@ -74,9 +74,14 @@ angular.module('dreamstreamApp.controllers', [])
   }
 })
 
-.controller('DataCtrl', function($scope, dreamAnalysisChart, highchartsNG, DreamAnalysis,DreamWordsService, scatterService, DreamParser, Dreams, Filters) {
+.controller('DataCtrl', function($scope, $state, dreamAnalysisChart, highchartsNG, DreamAnalysis,DreamWordsService, scatterService, DreamParser, Dreams, Filters) {
 
   var vm = this;
+
+  vm.pageReload = function()
+  {
+    $state.go($state.current, {}, {reload:true});
+  };
 
   vm.getAnalysis = function()
   {
