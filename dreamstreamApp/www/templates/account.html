@@ -1,5 +1,5 @@
-<ion-view view-title="Account">
-  <ion-content ng-init="checkSignup=false" class="padding center">
+<ion-view view-title="Account Settings">
+  <ion-content ng-init="checkSignup=false" class="padding center account">
     <form ng-show="!checkSignup" ng-submit="Account.signin({email: email, password: password})">
       <div class="list">
         <label class="item item-input item-floating-label">
@@ -10,9 +10,9 @@
           <span class="input-label">Password</span>
           <input name="password" type="password" placeholder="Password" ng-model="password">
         </label>
-        <button type="submit" class="button">Submit</button>
+        <button type="submit" class="button button-block signin-button">Sign In</button>
         <div><a href="#" ng-click="checkSignup=!checkSignup">Sign Up</a></div>
-        <div><a href="#" ng-click="Account.signout()">Log Out</a></div>
+        <div><a href="#" ng-click="Account.signout()">Sign Out</a></div>
       </div>
     </form>
     <form ng-show="checkSignup" ng-submit="Account.signup({firstName: SUfirstName, lastName: SUlastName, email: SUemail, password: SUpassword})">
@@ -37,7 +37,7 @@
           <span class="input-label">Confirm Password</span>
           <input name="confirmPassword" type="password" placeholder="Confirm password" ng-model="SUconfirmPassword">
         </label>
-        <button type="submit" class="button" ng-click='checkSignup=!checkSignup'>Submit</button>
+        <button type="submit" class="button button-block signup-button" ng-click='checkSignup=!checkSignup'>Sign Up</button>
         <div><a href="#" ng-click="checkSignup=!checkSignup">Sign In</a></div>
       </div>
     </form>

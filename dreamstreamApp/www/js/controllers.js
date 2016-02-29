@@ -57,7 +57,7 @@ angular.module('dreamstreamApp.controllers', [])
     signinService.signin(user).then(function(response) {
       // console.log(response);
       localStorage.setItem('Authorization', 'Bearer ' + response.data.token);
-      $location.path('/tab/new');
+      $location.path('/tab/stream');
     });
   }
 
@@ -83,7 +83,6 @@ angular.module('dreamstreamApp.controllers', [])
 
       //GETTING DREAM COUNT
       vm.dreamCount = dreamsArr.data.length;
-      console.log(dreamsArr);
 
       //GETTING AVERAGE MOOD
       var moodCount = 0;
@@ -170,4 +169,14 @@ angular.module('dreamstreamApp.controllers', [])
     .catch(function(err) {
       console.err(new Error(err));
     });
-});
+})
+
+.controller('TabCtrl', ['$scope', '$state', '$ionicTabsDelegate', TabCtrl]);
+
+function TabCtrl($scope, $state, $ionicTabsDelegate) {
+  var vm = this;
+  vm.state = '';
+  $scope.$on('$ionicView.loaded', function(viewInfo, state) {
+    vm.state = state;
+  });
+}

@@ -187,7 +187,7 @@ function dreamCloudService() {
         .rotate(function() {
           return ~~(Math.random() * 2) * 90;
         })
-        .font("Impact").fontSize(function(d) {
+        .font("Lato").fontSize(function(d) {
           // console.log(d)
           return d.size;
         })
@@ -196,7 +196,7 @@ function dreamCloudService() {
       function draw(words) {
         d3.select("#word-cloud").append("svg").attr("width", 350).attr("height", 350).append("g").attr("transform", "translate(175,175)").selectAll("text").data(words).enter().append("text").style("font-size", function(d) {
           return d.size + "px";
-        }).style("font-family", "Impact").style("fill", function(d, i) {
+        }).style("font-family", "Lato").style("font-weight", "900").style("fill", function(d, i) {
           return fill(i);
         }).attr("text-anchor", "middle").attr("transform", function(d) {
           return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
@@ -205,7 +205,7 @@ function dreamCloudService() {
         });
       }
     }
-  }
+  };
 }
 
 function scatterService(){
