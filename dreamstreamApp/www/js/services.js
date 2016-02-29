@@ -228,8 +228,8 @@ function scatterService() {
         "bottom": 30
       };
 
-      var width = 500;
-      var height = 500;
+      var width = 350;
+      var height = 450;
 
       // this will be our colour scale. An Ordinal scale.
       var colors = d3.scale.category10();
@@ -262,7 +262,7 @@ function scatterService() {
 
       // this is our X axis label. Nothing too special to see here.
       svg.append("text")
-        .attr("fill", "#414241")
+        .attr("fill", "#fffdf4")
         .attr("text-anchor", "end")
         .attr("x", 425)
         .attr("y", height - 70)
@@ -270,7 +270,7 @@ function scatterService() {
 
 
       svg.append("text")
-        .attr("fill", "#414241")
+        .attr("fill", "#fffdf4")
         .attr("transform", "rotate(-90)")
         .attr("text-anchor", "end")
         .attr("dy", ".71em")
@@ -300,7 +300,7 @@ function scatterService() {
         });
 
       // we add our first graphics element! A circle!
-      //  var formatTime = d3.dateTime.format("%e %B");
+      // var formatTime = d3.dateTime.format("%e %B");
 
       var div = d3.select("body").append("div")
         .attr("class", "tooltip")

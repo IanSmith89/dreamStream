@@ -79,16 +79,6 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
     letter-spacing: 3px;
   }
 
-  hr {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 1px solid $shadow;
-    margin: 1em 0;
-    padding: 0;
-    opacity: 0.5;
-}
-
   textarea {
     resize: none;
     color: $shadow;
@@ -147,6 +137,38 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
   font-weight: 900;
   letter-spacing: 8px;
   text-transform: uppercase;
+}
+
+.add-custom-filter-button {
+  color: $slategrey;
+  background: $lightblue;
+  font-size: 1.25em;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.stats {
+  color: $gold;
+  font-size: 3em;
+  font-weight: 900;
+}
+
+.outline {
+  border: 1px solid $lightblue;
+}
+
+.header {
+  color: $lightblue;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid $shadow;
+  margin: 1em 0;
+  padding: 0;
+  opacity: 0.5;
 }
 
 body {

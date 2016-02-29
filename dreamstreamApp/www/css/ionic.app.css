@@ -9765,14 +9765,6 @@ a.button {
     font-size: 1em;
     font-weight: 300;
     letter-spacing: 3px; }
-  .card hr, .item hr {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 1px solid #0b3041;
-    margin: 1em 0;
-    padding: 0;
-    opacity: 0.5; }
   .card textarea, .item textarea {
     resize: none;
     color: #0b3041;
@@ -9819,6 +9811,33 @@ a.button {
   font-weight: 900;
   letter-spacing: 8px;
   text-transform: uppercase; }
+
+.add-custom-filter-button {
+  color: #275675;
+  background: #a0daea;
+  font-size: 1.25em;
+  font-weight: 900;
+  text-transform: uppercase; }
+
+.stats {
+  color: #ffc300;
+  font-size: 3em;
+  font-weight: 900; }
+
+.outline {
+  border: 1px solid #a0daea; }
+
+.header {
+  color: #a0daea; }
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #0b3041;
+  margin: 1em 0;
+  padding: 0;
+  opacity: 0.5; }
 
 body {
   font-family: 'Lato', sans-serif;
