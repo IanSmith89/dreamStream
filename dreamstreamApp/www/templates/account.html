@@ -69,10 +69,11 @@
           <input name="confirmPassword" type="password" placeholder="Confirm password" ng-model="SUconfirmPassword"
           class="form-control"
           required>
+          <div ng-show="((form.password.$dirty && form.confirmPassword.$dirty) && (SUpassword != SUconfirmPassword))">
+              <span>Password mismatched</span>
+          </div>
         </label>
-        <div ng-show="((form.password.$dirty && form.confirmPassword.$dirty) && (SUpassword != SUconfirmPassword))">
-            <span>Password mismatched</span>
-        </div>
+        
         <button type="submit" class="button" ng-click='checkSignup=!checkSignup' ng-disabled='!form.$valid'>Submit</button>
         <button type="submit" class="button button-block signup-button" ng-click='checkSignup=!checkSignup'>Sign Up</button>
         <div><a href="#" ng-click="checkSignup=!checkSignup">Sign In</a></div>
