@@ -9855,3 +9855,6 @@ body {
 
 textarea {
   background: none; }
+
+.topSpacer {
+  height: 8px; }
