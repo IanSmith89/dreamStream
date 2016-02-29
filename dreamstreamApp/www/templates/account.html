@@ -1,6 +1,6 @@
 <ion-view view-title="Account Settings">
   <ion-content ng-init="checkSignup=false" class="padding center account">
-    <form ng-show="!checkSignup" ng-submit="Account.signin({email: email, password: password})" ng-hide='loggedStatus' name='signInForm'>
+    <form ng-show="!checkSignup" ng-submit="Account.signin({email: email, password: password})" ng-hide='Account.loggedStatus' name='signInForm'>
       <div class="list">
         <label class="item item-input item-floating-label">
           <span class="input-label">Email</span>
@@ -10,9 +10,9 @@
           <span class="input-label">Password</span>
           <input name="password" type="password" placeholder="Password" ng-model="password" required>
         </label>
-        <button type="submit" class="button button-block signin-button" ng-click='loggedStatus= true'>Sign In</button>
-        <div ng-hide='loggedStatus'><a href="#" ng-click="checkSignup=!checkSignup">Sign Up</a></div>
-        <div ng-show='loggedStatus'><a href="#" ng-click="Account.signout()">Sign Out</a></div>
+        <button type="submit" class="button button-block signin-button">Sign In</button>
+        <div ng-hide='Account.loggedStatus'><a href="#" ng-click="checkSignup=!checkSignup">Sign Up</a></div>
+        <div ng-show='Account.loggedStatus'><a href="#" ng-click="Account.signout()">Sign Out</a></div>
       </div>
     </form>
     <form novalidate name="form" ng-show="checkSignup" ng-submit="Account.signup({firstName: SUfirstName, lastName: SUlastName, email: SUemail, password: SUpassword})">
@@ -73,15 +73,15 @@
               <span>Password mismatched</span>
           </div>
         </label>
-        
+
         <button type="submit" class="button" ng-click='checkSignup=!checkSignup' ng-disabled='!form.$valid'>Submit</button>
         <button type="submit" class="button button-block signup-button" ng-click='checkSignup=!checkSignup'>Sign Up</button>
         <div><a href="#" ng-click="checkSignup=!checkSignup">Sign In</a></div>
       </div>
     </form>
-    <div ng-show='loggedStatus' ng-hide='!loggedStatus'>
+    <div ng-show='Account.loggedStatus' ng-hide='!Account.loggedStatus'>
       You are logged in as: {{email}}
     </div>
-    <button ng-show='loggedStatus' class="button button-block signin-button" ng-click="Account.signout(); loggedStatus=false; signInForm.$setUntouched().$setPristine()">Sign Out</button>
+    <button ng-show='Account.loggedStatus' class="button button-block signin-button" ng-click="Account.signout(); Account.loggedStatus=false; signInForm.$setUntouched().$setPristine()">Sign Out</button>
   </ion-content>
 </ion-view>
