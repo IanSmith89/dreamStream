@@ -34,7 +34,7 @@ angular.module('dreamstreamApp.services', [])
       return null;
     };
   }])
-  .service('CustomFilters', ['$http', 'dbURL', CustomFilters])
+  .service('CustomFilters', ['$http', 'dbURL', '$state', CustomFilters])
 
 .service('Filters', ['$http', 'dbURL', function($http, dbURL) {
 
@@ -337,7 +337,7 @@ function scatterService() {
         .attr("dy", -10)
         .text(function(d) {
           // this shouldn't be a surprising statement.
-          var splitDate = d.dateTime.slice(0, 10)
+          var splitDate = d.dateTime.slice(0, 10);
             //  console.log(splitDate)
           return splitDate;
         });
@@ -345,11 +345,13 @@ function scatterService() {
   };
 }
 
-function CustomFilters($http, dbURL) {
+function CustomFilters($http, dbURL, $state) {
   return {
     add: function(word) {
       return $http.post(dbURL.url + '/filters', word)
         .then(function(response) {
+          $state.go($state.current, {}, {reload: true});
+          console.log(response);
           return response;
         }, function(error) {
           return error;

@@ -124,14 +124,14 @@ angular.module('dreamstreamApp.controllers', [])
         // }
       }
       // console.log(moodData);
-      vm.averageMood = moodCount / dreamsArr.data.length;
+      vm.averageMood = (moodCount / dreamsArr.data.length).toFixed(2);
 
       //GETTING AVERAGE RATING
       var ratingCount = 0;
       for (var i = 0; i < dreamsArr.data.length; i++) {
         ratingCount += dreamsArr.data[i].rating;
       }
-      vm.averageRating = ratingCount / dreamsArr.data.length;
+      vm.averageRating = (ratingCount / dreamsArr.data.length).toFixed(2);
 
       // //MOOD PIE CHART
       //
