@@ -24,7 +24,6 @@ text {
     opacity: .7;
     cursor: pointer;
 }
-
 div.tooltip {
   position: absolute;
   text-align: center;

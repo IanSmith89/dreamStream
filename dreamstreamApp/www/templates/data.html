@@ -1,46 +1,57 @@
-<ion-view view-title="Data Visualizations">
-  <ion-content class="padding center">
-    <h3>Word Cloud</h3>
-    <div id='word-cloud'>
-    </div>
-
-    <div class="row">
-      <div class="col center">
-        <h2>
-          You've logged {{Data.dreamCount}} dreams
-        </h2>
+<ion-view view-title="Dream Data">
+  <ion-content class="padding center data">
+    <div id='word-cloud'></div>
+    <div class='row'>
+      <div class='list col center' ng-init='filterArray = Data.filterList()'>
+        {{filterArray}}
+        <p ng-repeat='item in filterArray'>
+          {{item.phrase}}
+        </p>
+        <form ng-submit='Data.submitFilter({content:filterInput})'>
+          <div class="item-input">
+            <label class="item-input-wrapper" for='filterInput'>
+              <input type="text" ng-model='filterInput' name='filterInput' id='filterInput' placeholder="Custom Word Cloud Filters..." required>
+            </label>
+            <button type="submit" class="button add-custom-filter-button">
+              <i class="ion-ios-plus-outline"></i> Add
+            </button>
+          </div>
+        </form>
       </div>
     </div>
+    <hr />
     <div class="row">
-      <div class="col center">
-        <h3>
-          Average Dream Mood
-        </h3>
+      <div class="col outline">
+        <h3 class="stats">{{Data.averageMood | number : 1}}</h3>
+      </div>
+      <div class="col outline">
+        <h3 class="stats">{{Data.averageRating | number : 1}}</h3>
+      </div>
+      <div class="col outline">
+        <h3 class="stats">{{Data.dreamCount}}</h3>
       </div>
     </div>
-    <div class="row">
-      <div class="col center">
-        <h4>
-          {{Data.averageMood}} out of 5
-        </h4>
+    <div class="row header">
+      <div class="col">
+        AVG. MOOD
+      </div>
+      <div class="col">
+        AVG. RATING
+      </div>
+      <div class="col">
+        DREAMS
       </div>
     </div>
-    <div class="row">
-      <div class="col center">
-        <h3>
-          Average Dream Rating
-        </h3>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col center">
-        <h4>
-          {{Data.averageRating}} out of 5
-        </h4>
-      </div>
-    </div>    
+    <hr />
 
     <div id="scatter-load"></div>
+
+    <div class="row" ng-init="chartConfig={}; showAnalysis=false">
+      <div class="col center">
+          <button ng-hide="showAnalysis" ng-click="chartConfig=Data.getAnalysis()(); showAnalysis=true;" type="button" name="button">Get Analysis</button>
+          <highchart ng-show="showAnalysis" id="analysisChart" config="chartConfig"></highchart>
+      </div>
+    </div>
 
   </ion-content>
 </ion-view>

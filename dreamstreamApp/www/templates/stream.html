@@ -1,49 +1,43 @@
-<ion-view view-title="Your Stream">
-  <ion-content class="padding" ng-init='orderSelect=false'>
-    <div>
-      <form>
-        <label for="filterSelect"></label>
-        <select name="filterSelect" id="filterSelect" ng-model="filterSelect">
-          <option value="">Filter by</option>
-          <option value="dateTime">Date</option>
-          <option value="mood">Mood</option>
-          <option value="rating">Rating</option>
-        </select>
-        <button type="button" name="button" ng-click="orderSelect = !orderSelect">Reverse Order</button>
-      </form>
-    </div>
-    <div class="card" ng-repeat="dream in SC.dreams | orderBy:filterSelect:orderSelect">
+  <ion-view view-title="Your DreamStream">
+    <ion-content class="padding stream" ng-init='orderSelect=false'>
+      <div class="list">
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Filter By
+          </div>
+          <select name="filterSelect" id="filterSelect" ng-model="filterSelect">
+            <option value="dateTime">Date</option>
+            <option value="mood">Mood</option>
+            <option value="rating">Rating</option>
+          </select>
+        </label>
+        <button class="button button-block" name="button" ng-click="orderSelect = !orderSelect">Reverse Order</button>
+      </div>
+      <div class="card" ng-repeat="dream in SC.dreams | orderBy:filterSelect:orderSelect">
       <div class="item item-text-wrap">
         <h2>
-          {{dream.dateTime | date: "EEEE | MMM dd, yyyy"}}
+          {{dream.dateTime | date: "EEEE, MMMM dd"}}
         </h2>
         <h4>
           {{dream.dateTime | date: "h:mma"}}
         </h4>
+        <hr />
         <textarea id='dream-stream-text'>{{dream.content}}</textarea>
+        <hr />
         <div class="row">
           <div class="col center">
-            <h2>
-              {{dream.mood}}
-            </h2>
             <h5>
-              MOOD
+              MOOD: {{dream.mood}}
             </h5>
           </div>
           <div class="col center">
-            <h2>
-              {{dream.rating}}
-            </h2>
             <h5>
-              RATING
+              RATING: {{dream.rating}}
             </h5>
           </div>
           <div class="col center">
-            <h2>
-              {{dream.duration}}
-            </h2>
             <h5>
-              DURATION
+              DURATION: {{dream.duration}}
             </h5>
           </div>
         </div>

@@ -1,36 +1,36 @@
 <ion-view view-title="New Dream">
-  <ion-content class="padding center">
-    
+  <ion-content class="padding center new">
+
     <form ng-submit="New.addNewDream(dream)">
 
     <div class='list'>
       <label class='item item-input'>
         <textarea name='content' ng-model="dream.content" id='dream-input' placeholder='Describe your dream'></textarea>
       </label>
-      <label>Mood: {{dream.mood}}</label>
+      <label>Dream Rating: {{dream.rating}}</label>
       <div class='item range'>
-        <i class='icon ion-sad-outline'></i>
-        <input type='range' min='1' max='5' value='3' step='1' name="mood" ng-model="dream.mood" id='mood'/>
-        <i class='icon ion-happy'></i>
-      </div>
-      <label>Rating: {{dream.rating}}</label>
-      <div class='item range'>
-        <i class='icon ion-thumbsdown'></i>
+        <i class='new-icon icon ion-thumbsdown'></i>
         <input type='range' min='1' max='5' value='3' step='1' name='rating' ng-model='dream.rating' id='rating'/>
-        <i class='icon ion-thumbsup'></i>
+        <i class='new-icon icon ion-thumbsup'></i>
+      </div>
+      <label>Your Mood: {{dream.mood}}</label>
+      <div class='item range'>
+        <i class='new-icon icon ion-sad'></i>
+        <input type='range' min='1' max='5' value='3' step='1' name="mood" ng-model="dream.mood" id='mood'/>
+        <i class='new-icon icon ion-happy'></i>
       </div>
       <label>Sleep Duration: {{dream.duration}} hours</label>
       <div class='item range'>
         <div class="num-holder">
-          <h2>0</h2>
+          <h3>0</h3>
         </div>
         <input type='range' min='0' max='12' value='6' step='1' name='duration' ng-model='dream.duration' id='duration'/>
         <div class="num-holder">
-          <h2>12</h2>
+          <h3>12</h3>
         </div>
       </div>
     </div>
-    <button class='button button-block' type='submit'>Submit</button>
+    <button class='button button-block new-dream-button' type='submit'>Add to Stream</button>
 
   </form>
   </ion-content>
