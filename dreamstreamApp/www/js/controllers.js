@@ -57,9 +57,8 @@ angular.module('dreamstreamApp.controllers', [])
     signinService.signin(user).then(function(response) {
       // console.log(response);
       localStorage.setItem('Authorization', 'Bearer ' + response.data.token);
-      console.log(localStorage.Authorization);
-      $location.path('/tab/stream');
       vm.loggedStatus = true;
+      $location.path('/tab/stream');
     });
   }
 
