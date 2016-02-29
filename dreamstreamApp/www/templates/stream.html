@@ -1,6 +1,18 @@
 <ion-view view-title="Your Stream">
-  <ion-content class="padding">
-    <div class="card" ng-repeat="dream in SC.dreams | orderBy:'-dateTime'">
+  <ion-content class="padding" ng-init='orderSelect=false'>
+    <div>
+      <form>
+        <label for="filterSelect"></label>
+        <select name="filterSelect" id="filterSelect" ng-model="filterSelect">
+          <option value="">Filter by</option>
+          <option value="dateTime">Date</option>
+          <option value="mood">Mood</option>
+          <option value="rating">Rating</option>
+        </select>
+        <button type="button" name="button" ng-click="orderSelect = !orderSelect">Reverse Order</button>
+      </form>
+    </div>
+    <div class="card" ng-repeat="dream in SC.dreams | orderBy:filterSelect:orderSelect">
       <div class="item item-text-wrap">
         <h2>
           {{dream.dateTime | date: "EEEE | MMM dd, yyyy"}}
