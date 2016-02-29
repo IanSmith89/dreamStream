@@ -62,6 +62,9 @@ angular.module('dreamstreamApp.controllers', [])
   }
 
   function signup(user) {
+    var vm = this;
+    this.regex = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+
     signupService.signup(user).then(function(response) {
       console.log(response);
       $location.path('/tab/account');
@@ -75,11 +78,10 @@ angular.module('dreamstreamApp.controllers', [])
 })
 
 .controller('DataCtrl', function($scope, DreamWordsService, scatterService, DreamParser, Dreams, Filters, CustomFilters) {
-
   var vm = this;
-
   Dreams.all()
-    .then(function(dreamsArr) {
+    .then(function(dreamsArr, data) {
+      // pieChartService.showPie(dreamsArr.data);
       scatterService.show(dreamsArr.data);
 
       //GETTING DREAM COUNT
@@ -87,40 +89,41 @@ angular.module('dreamstreamApp.controllers', [])
 
       //GETTING AVERAGE MOOD
       var moodCount = 0;
-      // var moodData = [
-      //   {
-      //     label: 1,
-      //     color: 'red',
-      //     value: 0
-      //   },
-      //   {
-      //     label: 2,
-      //     color: 'blue',
-      //     value: 0
-      //   },
-      //   {
-      //     label: 3,
-      //     color: 'yellow',
-      //     value: 0
-      //   },
-      //   {
-      //     label: 4,
-      //     color: 'green',
-      //     value: 0
-      //   },
-      //   {
-      //     label: 5,
-      //     color: 'purple',
-      //     value: 0
-      //   },
-      // ];
+      var moodData = [
+        {
+          label: 1,
+          color: 'red',
+          value: 0
+        },
+        {
+          label: 2,
+          color: 'blue',
+          value: 0
+        },
+        {
+          label: 3,
+          color: 'yellow',
+          value: 0
+        },
+        {
+          label: 4,
+          color: 'green',
+          value: 0
+        },
+        {
+          label: 5,
+          color: 'purple',
+          value: 0
+        },
+      ];
       for (var i = 0; i < dreamsArr.data.length; i++) {
         moodCount += dreamsArr.data[i].mood;
-        // for (var j = 0; j < moodData.length; j++) {
-        //   if (dreamsArr.data[i].mood === moodData[j].label) {
-        //     moodData[j].value++;
-        //   }
-        // }
+        for (var j = 0; j < moodData.length; j++) {
+          if (dreamsArr.data[i].mood === moodData[j].label) {
+            moodData[j].value++;
+            // console.log(moodData[j].value)
+          }
+        }
       }
       // console.log(moodData);
       vm.averageMood = (moodCount / dreamsArr.data.length).toFixed(2);
