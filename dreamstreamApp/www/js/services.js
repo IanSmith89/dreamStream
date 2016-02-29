@@ -377,7 +377,7 @@ function dreamAnalysisChart(DreamAnalysis, highchartsNG)
 
     var categoryData = [];
     var traitData = [];
-    var colors = ['rgb(45, 184, 221)', 'rgb(160, 219, 114)', 'rgb(131, 131, 131)', 'rgb(231, 151, 67)', 'rgb(214, 147, 224)', 'blue', 'red'];
+    var colors = ['#FFC300', '#00B3C5', '#A0DAEA', '#0B3041', '#3D79A1', 'blue', 'red'];
     // Build the data arrays
     var categoryMax = 0;
     var fullMax = 0;
@@ -425,12 +425,19 @@ function dreamAnalysisChart(DreamAnalysis, highchartsNG)
     return {
       options: {
         chart: {
+            backgroundColor: '#275675',
             type: 'pie'
         },
         title: {
+            style: {
+               color: '#FFFDF4',
+            },
             text: 'Dream Analysis'
         },
         subtitle: {
+          style: {
+             color: '#FFFDF4',
+          },
             text: 'Source: DreamStream via IBM Watson'
         },
         yAxis: {
@@ -456,7 +463,7 @@ function dreamAnalysisChart(DreamAnalysis, highchartsNG)
                 formatter: function () {
                     return this.y > 5 ? this.point.name : null;
                 },
-                color: '#ffffff',
+                color: '#FFFDF4',
                 distance: -30
             }
         }, {
