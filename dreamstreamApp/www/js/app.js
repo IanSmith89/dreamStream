@@ -34,7 +34,8 @@ angular.module('dreamstreamApp', ['ionic', 'dreamstreamApp.controllers', 'dreams
     .state('tab', {
       url: '/tab',
       abstract: true,
-      templateUrl: 'templates/tabs.html'
+      templateUrl: 'templates/tabs.html',
+      controller: 'TabCtrl as TC'
     })
     .state('tab.home', {
       url: '/home',
