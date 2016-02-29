@@ -9822,7 +9822,7 @@ a.button {
   letter-spacing: 8px;
   text-transform: uppercase; }
 
-.add-custom-filter-button {
+.add-custom-filter-button, .analysis-button {
   color: #275675;
   background: #a0daea;
   font-size: 1.25em;
