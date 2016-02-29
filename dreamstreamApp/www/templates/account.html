@@ -4,40 +4,76 @@
       <div class="list">
         <label class="item item-input item-floating-label">
           <span class="input-label">Email</span>
-          <input name="email" type="email" placeholder="Email" ng-model="email">
+          <input name="email" type="email" placeholder="Email" ng-model="email" required>
         </label>
         <label class="item item-input item-floating-label">
           <span class="input-label">Password</span>
-          <input name="password" type="password" placeholder="Password" ng-model="password">
+          <input name="password" type="password" placeholder="Password" ng-model="password" required>
         </label>
         <button type="submit" class="button">Submit</button>
         <div><a href="#" ng-click="checkSignup=!checkSignup">Sign Up</a></div>
         <div><a href="#" ng-click="Account.signout()">Log Out</a></div>
       </div>
     </form>
-    <form ng-show="checkSignup" ng-submit="Account.signup({firstName: SUfirstName, lastName: SUlastName, email: SUemail, password: SUpassword})">
+    <form novalidate name="form" ng-show="checkSignup" ng-submit="Account.signup({firstName: SUfirstName, lastName: SUlastName, email: SUemail, password: SUpassword})">
       <div class="list">
-        <label class="item item-input item-floating-label">
+        <label class="item item-input item-floating-label" ng-class="{'has-error': form.firstName.$invalid && form.firstName.$dirty, 'has-success': form.firstName.$valid && form.firstName.$dirty}">
           <span class="input-label">First Name</span>
-          <input name="firstName" type="text" placeholder="First name" ng-model="SUfirstName">
+          <input name="firstName" type="text" placeholder="First name" ng-model="SUfirstName"
+          class="form-control"
+          ng-minlength="2"
+          required>
+          <div class='help-block' ng-messages="form.firstName.$error" style="color:maroon" role="alert" ng-show="form.firstName.$touched">
+           <div ng-message="required">You did not enter a field</div>
+           <div ng-message="minlength">Your field is too short</div>
+         </div>
         </label>
-        <label class="item item-input item-floating-label">
+
+        <label class="item item-input item-floating-label" ng-class="{'has-error': form.lastName.$invalid && form.lastName.$dirty, 'has-success': form.lastName.$valid && form.lastName.$dirty}">
           <span class="input-label">Last Name</span>
-          <input name="lastName" type="text" placeholder="Last name" ng-model="SUlastName">
+          <input name="lastName" type="text" placeholder="Last name" ng-model="SUlastName"
+          class="form-control"
+          ng-minlength="2"
+          required>
+          <div class='help-block' ng-messages="form.lastName.$error" style="color:maroon" role="alert" ng-show="form.lastName.$touched">
+           <div ng-message="required">You did not enter a field</div>
+           <div ng-message="minlength">Your field is too short</div>
+         </div>
         </label>
-        <label class="item item-input item-floating-label">
+        <label class="item item-input item-floating-label" ng-class="{'has-error': form.email.$invalid && form.email.$dirty, 'has-success': form.email.$valid && form.email.$dirty}">
           <span class="input-label">Email</span>
-          <input name="email" type="email" placeholder="Email" ng-model="SUemail">
+          <input name="email" type="email" placeholder="Email" ng-model="SUemail"
+          class="form-control"
+          ng-pattern="Account.regex"
+          required>
+          <div class='help-block' ng-messages="form.email.$error" style="color:maroon" role="alert" ng-show="form.email.$touched">
+           <div ng-message="required">You did not enter a field</div>
+           <div ng-message="pattern">Incorrect email format</div>
+         </div>
         </label>
-        <label class="item item-input item-floating-label">
+        <label class="item item-input item-floating-label" ng-class="{'has-error': isInputInvalid(form.password), 'has-success': isInputValid(form.password)}">
           <span class="input-label">Password</span>
-          <input name="password" type="password" placeholder="Password" ng-model="SUpassword">
+          <input name="password" type="password" placeholder="Password" ng-model="SUpassword"
+          class="form-control"
+          ng-minlength="5"
+          ng-maxlength="25"
+          required>
+          <div class='help-block' ng-messages="form.password.$error" style="color:maroon" role="alert" ng-show="form.password.$touched">
+           <div ng-message="required">You did not enter a field</div>
+           <div ng-message="minlength">Your field is too short</div>
+           <div ng-message="maxlength">Your field is too long</div>
+         </div>
         </label>
         <label class="item item-input item-floating-label">
           <span class="input-label">Confirm Password</span>
-          <input name="confirmPassword" type="password" placeholder="Confirm password" ng-model="SUconfirmPassword">
+          <input name="confirmPassword" type="password" placeholder="Confirm password" ng-model="SUconfirmPassword"
+          class="form-control"
+          required>
         </label>
-        <button type="submit" class="button" ng-click='checkSignup=!checkSignup'>Submit</button>
+        <div ng-show="((form.password.$dirty && form.confirmPassword.$dirty) && (SUpassword != SUconfirmPassword))">
+            <span>Password mismatched</span>
+        </div>
+        <button type="submit" class="button" ng-click='checkSignup=!checkSignup' ng-disabled='!form.$valid'>Submit</button>
         <div><a href="#" ng-click="checkSignup=!checkSignup">Sign In</a></div>
       </div>
     </form>
