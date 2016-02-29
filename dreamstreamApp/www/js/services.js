@@ -111,6 +111,8 @@ function dreamAnalysisFunc($http, dbURL) {
 
 function dreamAnalysisChart(DreamAnalysis, highchartsNG)
 {
+  return function(){
+    console.log('Dream Analyzer Load.');
     //var analysisData = DreamAnalysis.analyze();
     var analysisData = [
   {
@@ -372,15 +374,35 @@ function dreamAnalysisChart(DreamAnalysis, highchartsNG)
 
     var categoryData = [];
     var traitData = [];
-    var colors = ['red', 'blue', 'green', 'purple', 'grey', 'lightblue', 'lightgreen'];
-     //var colors = highchartsNG.getOptions().colors;
+    var colors = ['lightgreen', 'lightblue', 'grey', 'orange', 'rgb(214, 147, 224)', 'blue', 'red'];
     // Build the data arrays
+    var categoryMax = 0;
+    var fullMax = 0;
+    var traitMax = [];
+    for (var i = 0; i < analysisData.length; i ++) {
+      categoryMax += analysisData[i].percentage;
+      for(var j=0; j < analysisData[i].children.length; j++)
+      {
+        if(traitMax[i])
+        {
+          traitMax[i] += analysisData[i].children[j].percentage;
+        }
+        else {
+          traitMax[i] = analysisData[i].children[j].percentage;
+        }
+      }
+    }
+    for(var i=0; i < traitMax.length; i++)
+    {
+      fullMax += traitMax[i];
+    }
+
    for (var i = 0; i < analysisData.length; i ++) {
 
        // add browser data
        categoryData.push({
            name: analysisData[i].id,
-           y: analysisData[i].percentage,
+           y: parseFloat(((traitMax[i] / fullMax) * 100).toFixed(2)),
            color: colors[i]
        });
 
@@ -388,7 +410,7 @@ function dreamAnalysisChart(DreamAnalysis, highchartsNG)
        {
          traitData.push({
              name: analysisData[i].children[j].id,
-             y: analysisData[i].children[j].percentage,
+             y: parseFloat(((analysisData[i].children[j].percentage / fullMax) * 100).toFixed(2)),
              color: colors[i]
          });
        }
@@ -429,7 +451,7 @@ function dreamAnalysisChart(DreamAnalysis, highchartsNG)
             size: '60%',
             dataLabels: {
                 formatter: function () {
-                    return this.y > 0.05 ? this.point.name : null;
+                    return this.y > 5 ? this.point.name : null;
                 },
                 color: '#ffffff',
                 distance: -30
@@ -442,11 +464,12 @@ function dreamAnalysisChart(DreamAnalysis, highchartsNG)
             dataLabels: {
                 formatter: function () {
                     // display only if larger than 1
-                    return this.y > 0.1 ? '<b>' + this.point.name + ':</b> ' + this.y + '%' : null;
+                    return this.y > 1 ? '<b>' + this.point.name + ':</b> ' + this.y + '%' : null;
                 }
             }
         }]
     };
+  };
 }
 
 function signinService($http, dbURL) {
