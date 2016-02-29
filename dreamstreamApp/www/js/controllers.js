@@ -33,7 +33,7 @@ angular.module('dreamstreamApp.controllers', [])
   //   media.play({
   //     numberOfLoops: 2,
   //     playAudioWhenScreenIsLocked: false
-    // });
+  // });
   // };
 
   function addNewDream(dream) {
@@ -74,9 +74,10 @@ angular.module('dreamstreamApp.controllers', [])
   }
 })
 
-.controller('DataCtrl', function($scope, DreamWordsService, scatterService, DreamParser, Dreams, Filters) {
+.controller('DataCtrl', function($scope, DreamWordsService, scatterService, DreamParser, Dreams, Filters, CustomFilters) {
 
   var vm = this;
+
   Dreams.all()
     .then(function(dreamsArr) {
       scatterService.show(dreamsArr.data);
@@ -122,14 +123,14 @@ angular.module('dreamstreamApp.controllers', [])
         // }
       }
       // console.log(moodData);
-      vm.averageMood = moodCount / dreamsArr.data.length;
+      vm.averageMood = (moodCount / dreamsArr.data.length).toFixed(2);
 
       //GETTING AVERAGE RATING
       var ratingCount = 0;
       for (var i = 0; i < dreamsArr.data.length; i++) {
         ratingCount += dreamsArr.data[i].rating;
       }
-      vm.averageRating = ratingCount / dreamsArr.data.length;
+      vm.averageRating = (ratingCount / dreamsArr.data.length).toFixed(2);
 
       // //MOOD PIE CHART
       //
@@ -143,6 +144,10 @@ angular.module('dreamstreamApp.controllers', [])
       // 	gradPie.transition("moodpie", randomData(), 160);
       // }
 
+      //CUSTOM FILTER
+      vm.submitFilter = CustomFilters.add;
+      vm.filterList = CustomFilters.get;
+      // console.log(vm.filterList);
       //WORD CLOUD
       Filters.all().then(function(filters) {
         // console.log(filters);
@@ -152,11 +157,11 @@ angular.module('dreamstreamApp.controllers', [])
           str += ' ' + data[i].content;
         }
         var input = DreamParser.parse(str);
-
+        // console.log(input);
         for (var i = 0; i < input.length; i++) {
           for (var j = 0; j < filters.data.length; j++) {
-            // console.log(input[i] + " ---> " + filters.data[j].phrase);
-            if (input[i] === filters.data[j].phrase.toLowerCase()) {
+            // console.log(filters.data[j].phrase + " -----> " + input[i]);
+            if ((filters.data[j].phrase !== null) && (input[i] === filters.data[j].phrase.toLowerCase())) {
               input.splice(i, 1);
               i--;
             }
