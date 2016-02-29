@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('dreamstreamApp', ['ionic', 'highcharts-ng', 'dreamstreamApp.controllers', 'dreamstreamApp.services'])
+angular.module('dreamstreamApp', ['ionic', 'highcharts-ng', 'dreamstreamApp.controllers', 'dreamstreamApp.services', 'ngMessages'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -42,7 +42,8 @@ angular.module('dreamstreamApp', ['ionic', 'highcharts-ng', 'dreamstreamApp.cont
     .state('tab', {
       url: '/tab',
       abstract: true,
-      templateUrl: 'templates/tabs.html'
+      templateUrl: 'templates/tabs.html',
+      controller: 'TabCtrl as TC'
     })
     .state('tab.home', {
       url: '/home',

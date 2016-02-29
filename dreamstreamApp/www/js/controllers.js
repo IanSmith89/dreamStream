@@ -33,7 +33,7 @@ angular.module('dreamstreamApp.controllers', [])
   //   media.play({
   //     numberOfLoops: 2,
   //     playAudioWhenScreenIsLocked: false
-    // });
+  // });
   // };
 
   function addNewDream(dream) {
@@ -57,11 +57,14 @@ angular.module('dreamstreamApp.controllers', [])
     signinService.signin(user).then(function(response) {
       // console.log(response);
       localStorage.setItem('Authorization', 'Bearer ' + response.data.token);
-      $location.path('/tab/new');
+      $location.path('/tab/stream');
     });
   }
 
   function signup(user) {
+    var vm = this;
+    this.regex = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+
     signupService.signup(user).then(function(response) {
       console.log(response);
       $location.path('/tab/account');
@@ -74,7 +77,7 @@ angular.module('dreamstreamApp.controllers', [])
   }
 })
 
-.controller('DataCtrl', function($scope, $state, dreamAnalysisChart, highchartsNG, DreamAnalysis,DreamWordsService, scatterService, DreamParser, Dreams, Filters) {
+.controller('DataCtrl', function($scope, $state, dreamAnalysisChart, highchartsNG, DreamAnalysis,DreamWordsService, scatterService, DreamParser, Dreams, Filters, CustomFilters) {
 
   var vm = this;
 
@@ -89,59 +92,60 @@ angular.module('dreamstreamApp.controllers', [])
   };
 
   Dreams.all()
-    .then(function(dreamsArr) {
+    .then(function(dreamsArr, data) {
+      // pieChartService.showPie(dreamsArr.data);
       scatterService.show(dreamsArr.data);
 
       //GETTING DREAM COUNT
       vm.dreamCount = dreamsArr.data.length;
-      console.log(dreamsArr);
 
       //GETTING AVERAGE MOOD
       var moodCount = 0;
-      // var moodData = [
-      //   {
-      //     label: 1,
-      //     color: 'red',
-      //     value: 0
-      //   },
-      //   {
-      //     label: 2,
-      //     color: 'blue',
-      //     value: 0
-      //   },
-      //   {
-      //     label: 3,
-      //     color: 'yellow',
-      //     value: 0
-      //   },
-      //   {
-      //     label: 4,
-      //     color: 'green',
-      //     value: 0
-      //   },
-      //   {
-      //     label: 5,
-      //     color: 'purple',
-      //     value: 0
-      //   },
-      // ];
+      var moodData = [
+        {
+          label: 1,
+          color: 'red',
+          value: 0
+        },
+        {
+          label: 2,
+          color: 'blue',
+          value: 0
+        },
+        {
+          label: 3,
+          color: 'yellow',
+          value: 0
+        },
+        {
+          label: 4,
+          color: 'green',
+          value: 0
+        },
+        {
+          label: 5,
+          color: 'purple',
+          value: 0
+        },
+      ];
       for (var i = 0; i < dreamsArr.data.length; i++) {
         moodCount += dreamsArr.data[i].mood;
-        // for (var j = 0; j < moodData.length; j++) {
-        //   if (dreamsArr.data[i].mood === moodData[j].label) {
-        //     moodData[j].value++;
-        //   }
-        // }
+        for (var j = 0; j < moodData.length; j++) {
+          if (dreamsArr.data[i].mood === moodData[j].label) {
+            moodData[j].value++;
+            // console.log(moodData[j].value)
+          }
+        }
       }
       // console.log(moodData);
-      vm.averageMood = moodCount / dreamsArr.data.length;
+      vm.averageMood = (moodCount / dreamsArr.data.length).toFixed(2);
 
       //GETTING AVERAGE RATING
       var ratingCount = 0;
       for (var i = 0; i < dreamsArr.data.length; i++) {
         ratingCount += dreamsArr.data[i].rating;
       }
-      vm.averageRating = ratingCount / dreamsArr.data.length;
+      vm.averageRating = (ratingCount / dreamsArr.data.length).toFixed(2);
 
       // //MOOD PIE CHART
       //
@@ -155,6 +159,10 @@ angular.module('dreamstreamApp.controllers', [])
       // 	gradPie.transition("moodpie", randomData(), 160);
       // }
 
+      //CUSTOM FILTER
+      vm.submitFilter = CustomFilters.add;
+      vm.filterList = CustomFilters.get;
+      // console.log(vm.filterList);
       //WORD CLOUD
       Filters.all().then(function(filters) {
         // console.log(filters);
@@ -164,11 +172,11 @@ angular.module('dreamstreamApp.controllers', [])
           str += ' ' + data[i].content;
         }
         var input = DreamParser.parse(str);
-
+        // console.log(input);
         for (var i = 0; i < input.length; i++) {
           for (var j = 0; j < filters.data.length; j++) {
-            // console.log(input[i] + " ---> " + filters.data[j].phrase);
-            if (input[i] === filters.data[j].phrase.toLowerCase()) {
+            // console.log(filters.data[j].phrase + " -----> " + input[i]);
+            if ((filters.data[j].phrase !== null) && (input[i] === filters.data[j].phrase.toLowerCase())) {
               input.splice(i, 1);
               i--;
             }
@@ -181,4 +189,14 @@ angular.module('dreamstreamApp.controllers', [])
     .catch(function(err) {
       console.err(new Error(err));
     });
-});
+})
+
+.controller('TabCtrl', ['$scope', '$state', '$ionicTabsDelegate', TabCtrl]);
+
+function TabCtrl($scope, $state, $ionicTabsDelegate) {
+  var vm = this;
+  vm.state = '';
+  $scope.$on('$ionicView.loaded', function(viewInfo, state) {
+    vm.state = state;
+  });
+}

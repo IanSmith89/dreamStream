@@ -1,37 +1,30 @@
-<ion-view view-title="Your Stream">
-  <ion-content class="padding">
+<ion-view view-title="Your DreamStream">
+  <ion-content class="padding stream">
     <div class="card" ng-repeat="dream in SC.dreams | orderBy:'-dateTime'">
       <div class="item item-text-wrap">
         <h2>
-          {{dream.dateTime | date: "EEEE | MMM dd, yyyy"}}
+          {{dream.dateTime | date: "EEEE, MMMM dd"}}
         </h2>
         <h4>
           {{dream.dateTime | date: "h:mma"}}
         </h4>
+        <hr />
         <textarea id='dream-stream-text'>{{dream.content}}</textarea>
+        <hr />
         <div class="row">
           <div class="col center">
-            <h2>
-              {{dream.mood}}
-            </h2>
             <h5>
-              MOOD
+              MOOD: {{dream.mood}}
             </h5>
           </div>
           <div class="col center">
-            <h2>
-              {{dream.rating}}
-            </h2>
             <h5>
-              RATING
+              RATING: {{dream.rating}}
             </h5>
           </div>
           <div class="col center">
-            <h2>
-              {{dream.duration}}
-            </h2>
             <h5>
-              DURATION
+              DURATION: {{dream.duration}}
             </h5>
           </div>
         </div>

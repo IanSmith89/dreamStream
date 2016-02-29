@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('dreamstreamApp.services', [])
-.service('dbURL', [dbURL])
+  .service('dbURL', [dbURL])
 
 .service('DreamParser', ['dbURL', dreamParserFunc])
 
@@ -14,6 +14,8 @@ angular.module('dreamstreamApp.services', [])
 .service('newDreamService', ['$http', 'dbURL', newDreamService])
 
 .service('scatterService', ['dbURL', scatterService])
+
+// .service('pieChartService', ['dbURL', pieChartService])
 
 .service('Dreams', ['$http', 'dbURL', function($http, dbURL) {
     this.all = function() {
@@ -38,20 +40,23 @@ angular.module('dreamstreamApp.services', [])
       return null;
     };
   }])
+  .service('CustomFilters', ['$http', 'dbURL', '$state', CustomFilters])
 
 .service('Filters', ['$http', 'dbURL', function($http, dbURL) {
 
-    this.all = function() {
-      return $http({
-        method: 'GET',
-        url: dbURL.url + '/filters/all'
-      }).then(function(obj) {
-        return obj;
-      }, function(response) {
-        console.error(new Error(response));
-      });
-    };
-  }])
+  this.all = function() {
+    return $http({
+      method: 'GET',
+      url: dbURL.url + '/filters/all'
+    }).then(function(obj) {
+      return obj;
+    }, function(response) {
+      console.error(new Error(response));
+    });
+  };
+}])
+
+
 
 .service("AuthInterceptor", function($location, $q) {
   return {
@@ -83,10 +88,8 @@ angular.module('dreamstreamApp.services', [])
 
 .service('signupService', ['$http', 'dbURL', signupService]);
 
-// .service('pieChartService', [pieChartService]);
 
-
-function dbURL(){
+function dbURL() {
   return {
     url: "https://serene-atoll-41100.herokuapp.com"
   };
@@ -521,7 +524,13 @@ function dreamParserFunc() {
       dreamStr = dreamStr.replace(/[,.:;"'|!@#$%^&*()\?_+=<>-]/g, '');
       var dreamArr = dreamStr.split(' ');
       for (var i = 0; i < dreamArr.length; i++) {
-        dreamArr[i] = dreamArr[i].toLowerCase();
+        if (dreamArr[i] === '') {
+          dreamArr.splice(i, 1);
+          i--;
+        } else {
+          dreamArr[i] = dreamArr[i].toLowerCase();
+        }
+
       }
       return dreamArr;
     }
@@ -571,7 +580,7 @@ function dreamCloudService() {
         .rotate(function() {
           return ~~(Math.random() * 2) * 90;
         })
-        .font("Impact").fontSize(function(d) {
+        .font("Lato").fontSize(function(d) {
           // console.log(d)
           return d.size;
         })
@@ -580,7 +589,7 @@ function dreamCloudService() {
       function draw(words) {
         d3.select("#word-cloud").append("svg").attr("width", 350).attr("height", 350).append("g").attr("transform", "translate(175,175)").selectAll("text").data(words).enter().append("text").style("font-size", function(d) {
           return d.size + "px";
-        }).style("font-family", "Impact").style("fill", function(d, i) {
+        }).style("font-family", "Lato").style("font-weight", "900").style("fill", function(d, i) {
           return fill(i);
         }).attr("text-anchor", "middle").attr("transform", function(d) {
           return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
@@ -589,137 +598,160 @@ function dreamCloudService() {
         });
       }
     }
-  }
+  };
 }
 
-function scatterService(){
+function scatterService() {
   return {
-    show: function(data){
+    show: function(data) {
       // just to have some space around items.
-       var margins = {
-           "left": 40,
-           "right": 30,
-           "top": 30,
-           "bottom": 30
-       };
+      var margins = {
+        "left": 40,
+        "right": 30,
+        "top": 30,
+        "bottom": 30
+      };
 
-       var width = 500;
-       var height = 500;
+      var width = 350;
+      var height = 450;
 
-       // this will be our colour scale. An Ordinal scale.
-       var colors = d3.scale.category10();
+      // this will be our colour scale. An Ordinal scale.
+      var colors = d3.scale.category10();
 
-       // we add the SVG component to the scatter-load div
-       var svg = d3.select("#scatter-load").append("svg").attr("width", width).attr("height", height).append("g")
-           .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+      // we add the SVG component to the scatter-load div
+      var svg = d3.select("#scatter-load").append("svg").attr("width", width).attr("height", height).append("g")
+        .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
 
-       // this sets the scale that we're using for the X axis.
-       // the domain define the min and max variables to show. In this case, it's the min and max prices of items.
-       // this is made a compact piece of code due to d3.extent which gives back the max and min of the price variable within the dataset
-       var x = d3.scale.linear()
-           .domain(d3.extent(data, function (d) {
-           return d.mood;
-       }))
-       // the range maps the domain to values from 0 to the width minus the left and right margins (used to space out the visualization)
-           .range([0, width - margins.left - margins.right]);
+      // this sets the scale that we're using for the X axis.
+      // the domain define the min and max variables to show. In this case, it's the min and max prices of items.
+      // this is made a compact piece of code due to d3.extent which gives back the max and min of the price variable within the dataset
+      var x = d3.scale.linear()
+        .domain(d3.extent(data, function(d) {
+          return d.mood;
+        }))
+        // the range maps the domain to values from 0 to the width minus the left and right margins (used to space out the visualization)
+        .range([0, width - margins.left - margins.right]);
 
-       // this does the same as for the y axis but maps from the rating variable to the height to 0.
-       var y = d3.scale.linear()
-           .domain(d3.extent(data, function (d) {
-           return d.rating;
-       }))
-       // Note that height goes first due to the weird SVG coordinate system
-       .range([height - margins.top - margins.bottom, 0]);
+      // this does the same as for the y axis but maps from the rating variable to the height to 0.
+      var y = d3.scale.linear()
+        .domain(d3.extent(data, function(d) {
+          return d.rating;
+        }))
+        // Note that height goes first due to the weird SVG coordinate system
+        .range([height - margins.top - margins.bottom, 0]);
 
-       // we add the axes SVG component. At this point, this is just a placeholder. The actual axis will be added in a bit
-       svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + y.range()[0] + ")");
-       svg.append("g").attr("class", "y axis").attr("transform", "translate(0," + x.range()[0] + ")");
+      // we add the axes SVG component. At this point, this is just a placeholder. The actual axis will be added in a bit
+      svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + y.range()[0] + ")");
+      svg.append("g").attr("class", "y axis").attr("transform", "translate(0," + x.range()[0] + ")");
 
-       // this is our X axis label. Nothing too special to see here.
-       svg.append("text")
-           .attr("fill", "#414241")
-           .attr("text-anchor", "end")
-           .attr("x", 425)
-           .attr("y", height - 70)
-           .text("Mood");
-
-
-       svg.append("text")
-           .attr("fill", "#414241")
-           .attr("transform", "rotate(-90)")
-           .attr("text-anchor", "end")
-           .attr("dy", ".71em")
-           .attr("y",6)
-           .text("Rating");
+      // this is our X axis label. Nothing too special to see here.
+      svg.append("text")
+        .attr("fill", "#fffdf4")
+        .attr("text-anchor", "end")
+        .attr("x", 425)
+        .attr("y", height - 70)
+        .text("Mood");
 
 
-       // this is the actual definition of our x and y axes. The orientation refers to where the labels appear - for the x axis, below or above the line, and for the y axis, left or right of the line. Tick padding refers to how much space between the tick and the label. There are other parameters too - see https://github.com/mbostock/d3/wiki/SVG-Axes for more information
-       var xAxis = d3.svg.axis().scale(x).orient("bottom").tickPadding(2);
-       var yAxis = d3.svg.axis().scale(y).orient("left").tickPadding(2);
+      svg.append("text")
+        .attr("fill", "#fffdf4")
+        .attr("transform", "rotate(-90)")
+        .attr("text-anchor", "end")
+        .attr("dy", ".71em")
+        .attr("y", 6)
+        .text("Rating");
 
-       // this is where we select the axis we created a few lines earlier. See how we select the axis item. in our svg we appended a g element with a x/y and axis class. To pull that back up, we do this svg select, then 'call' the appropriate axis object for rendering.
-       svg.selectAll("g.y.axis").call(yAxis);
-       svg.selectAll("g.x.axis").call(xAxis);
 
-       // now, we can get down to the data part, and drawing stuff. We are telling D3 that all nodes (g elements with class node) will have data attached to them. The 'key' we use (to let D3 know the uniqueness of items) will be the name. Not usually a great key, but fine for this example.
-       var dream = svg.selectAll("g.node").data(data, function (d) {
-           return d.id;
-       });
+      // this is the actual definition of our x and y axes. The orientation refers to where the labels appear - for the x axis, below or above the line, and for the y axis, left or right of the line. Tick padding refers to how much space between the tick and the label. There are other parameters too - see https://github.com/mbostock/d3/wiki/SVG-Axes for more information
+      var xAxis = d3.svg.axis().scale(x).orient("bottom").tickPadding(2);
+      var yAxis = d3.svg.axis().scale(y).orient("left").tickPadding(2);
 
-       // we 'enter' the data, making the SVG group (to contain a circle and text) with a class node. This corresponds with what we told the data it should be above.
+      // this is where we select the axis we created a few lines earlier. See how we select the axis item. in our svg we appended a g element with a x/y and axis class. To pull that back up, we do this svg select, then 'call' the appropriate axis object for rendering.
+      svg.selectAll("g.y.axis").call(yAxis);
+      svg.selectAll("g.x.axis").call(xAxis);
 
-       var dreamGroup = dream.enter().append("g").attr("class", "node")
-       // this is how we set the position of the items. Translate is an incredibly useful function for rotating and positioning items
-       .attr('transform', function (d) {
-           return "translate(" + x(d.mood) + "," + y(d.rating) + ")";
-       });
+      // now, we can get down to the data part, and drawing stuff. We are telling D3 that all nodes (g elements with class node) will have data attached to them. The 'key' we use (to let D3 know the uniqueness of items) will be the name. Not usually a great key, but fine for this example.
+      var dream = svg.selectAll("g.node").data(data, function(d) {
+        return d.id;
+      });
 
-       // we add our first graphics element! A circle!
-      //  var formatTime = d3.dateTime.format("%e %B");
+      // we 'enter' the data, making the SVG group (to contain a circle and text) with a class node. This corresponds with what we told the data it should be above.
 
-       var div = d3.select("body").append("div")
+      var dreamGroup = dream.enter().append("g").attr("class", "node")
+        // this is how we set the position of the items. Translate is an incredibly useful function for rotating and positioning items
+        .attr('transform', function(d) {
+          return "translate(" + x(d.mood) + "," + y(d.rating) + ")";
+        });
+
+      // we add our first graphics element! A circle!
+      // var formatTime = d3.dateTime.format("%e %B");
+
+      var div = d3.select("body").append("div")
         .attr("class", "tooltip")
         .style("opacity", 0);
 
-       dreamGroup.append("circle")
-           .attr("r", 10)
-           .attr("class", "dot")
-           .attr("on-touch", "onTouch()")
-           .attr("class", "button")
-           .style("fill", function (d) {
-               // remember the ordinal scales? We use the colors scale to get a colour for our manufacturer. Now each node will be coloured
-               // by who makes the chocolate.
-               return colors(d.id);
-       })
-           .on("mouseover", function(d) {
-             console.log(d)
-              div.transition()
-                  .duration(200)
-                  .style("opacity", 0.9);
-              div.html((d.dateTime) + "<br/>"  + d.close)
-                  .style("left", (d3.event.pageX) + "px")
-                  .style("top", (d3.event.pageY - 28) + "px");
-              })
-              .on("mouseout", function(d) {
-                div.transition()
-                   .duration(500)
-                   .style("opacity", 0);
-                 });
+      dreamGroup.append("circle")
+        .attr("r", 10)
+        .attr("class", "dot")
+        .attr("on-touch", "onTouch()")
+        .attr("class", "button")
+        .style("fill", function(d) {
+          // remember the ordinal scales? We use the colors scale to get a colour for our manufacturer. Now each node will be coloured
+          // by who makes the chocolate.
+          return colors(d.id);
+        })
+        .on("mouseover", function(d) {
+          console.log(d)
+          div.transition()
+            .duration(200)
+            .style("opacity", 0.9);
+          div.html((d.dateTime) + "<br/>" + d.close)
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY - 28) + "px");
+        })
+        .on("mouseout", function(d) {
+          div.transition()
+            .duration(500)
+            .style("opacity", 0);
+        });
 
-       // now we add some text, so we can see what each item is.
-       dreamGroup.append("text")
-           .style("text-anchor", "middle")
-           .attr("dy", -10)
-           .text(function (d) {
-               // this shouldn't be a surprising statement.
-               var splitDate = d.dateTime.slice(0,10)
-              //  console.log(splitDate)
-               return splitDate;
-          });
-        }
-      };
+      // now we add some text, so we can see what each item is.
+      dreamGroup.append("text")
+        .style("text-anchor", "middle")
+        .attr("dy", -10)
+        .text(function(d) {
+          // this shouldn't be a surprising statement.
+          var splitDate = d.dateTime.slice(0, 10);
+            //  console.log(splitDate)
+          return splitDate;
+        });
     }
+  };
+}
 
+function CustomFilters($http, dbURL, $state) {
+  return {
+    add: function(word) {
+      return $http.post(dbURL.url + '/filters', word)
+        .then(function(response) {
+          $state.go($state.current, {}, {reload: true});
+          console.log(response);
+          return response;
+        }, function(error) {
+          return error;
+        });
+    },
+    get: function(){
+      return $http.get(dbURL.url + '/filters/specific')
+      .then(function(response){
+        // console.log(response.data);
+        return response.data;
+      }, function(error){
+        return error;
+      });
+    }
+  };
+}
 
 // function pieChartService() {
 //   var gradPie={};
@@ -756,4 +788,61 @@ function scatterService(){
 // 			.each(function(d) { this._current = d; });
 //   	}
 //   };
+// return {
+//   showPie: function(data) {
+//
+//     var w = 400;
+//     var h = 400;
+//     var r = h/2;
+//     var color = d3.scale.category20c();
+//     var moodTotal = [];
+//     var total = {};
+//
+//
+//     var vis = d3.select('#chart').append("svg:svg").data([data]).attr("width", w).attr("height", h).append("svg:g").attr("transform", "translate(" + r + "," + r + ")");
+//
+//
+//     var pie = d3.layout.pie().value(function(d, total){
+//       console.log(d.mood);
+//       moodTotal.push(d.mood);
+//       console.log(moodTotal);
+//       moodTotal.reduce(function (total, current) {
+//         if (typeof total[current] == 'undefined') {
+//           total[current] = 1;
+//           } else {
+//             total[current] += 1;
+//           }
+//           console.log(total);
+//           //secTotal = total;
+//           return total;
+//          }, {});
+//          console.log(moodTotal);
+//       return total;
+//     });
+//
+//
+//     // declare an arc generator function
+//     var arc = d3.svg.arc().outerRadius(r);
+//
+//     // select paths, use arc generator to draw
+//     var arcs = vis.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
+//     arcs.append("svg:path")
+//         .attr("fill", function(d, i){
+//             return color(i);
+//         })
+//         .attr("d", function (d) {
+//             // log the result of the arc generator to show how cool it is :)
+//             // console.log(arc(d));
+//             return arc(d);
+//         });
+//
+//     // add the text
+//     arcs.append("svg:text").attr("transform", function(d){
+//     			d.innerRadius = 0;
+//     			d.outerRadius = r;
+//         return "translate(" + arc.centroid(d) + ")";}).attr("text-anchor", "middle").text( function(d, i) {
+//         return data[i].mood;}
+//     		);
+//       }
+//     }
 // }
