@@ -24,9 +24,6 @@ text {
     opacity: .7;
     cursor: pointer;
 }
-#analysisChart{
-  width: 350px !important;
-}
 div.tooltip {
   position: absolute;
   text-align: center;
