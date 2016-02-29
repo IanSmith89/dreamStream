@@ -26,4 +26,13 @@ The common words from the dreams are populated into a word cloud. Filters are ad
     * [d3-cloud by Jason Davies](https://github.com/jasondavies/d3-cloud#cloud)
   * [HighCharts](https://github.com/pablojim/highcharts-ng)
 
+## Screenshots
+![Sign in](https://github.com/IanSmith89/dreamStream/blob/master/screenshots/DreamStream_sign%20in.png "Sign in")
+![Add new dream](https://github.com/IanSmith89/dreamStream/blob/master/screenshots/DreamStream_add%20new.png "Add new dream")
 
+
+![Stream](https://github.com/IanSmith89/dreamStream/blob/master/screenshots/DreamStream_stream.png "Stream")
+![Word Cloud](https://github.com/IanSmith89/dreamStream/blob/master/screenshots/DreamStream_word%20cloud.png "Word Cloud")
+
+
+![Personality Analysis](https://github.com/IanSmith89/dreamStream/blob/master/screenshots/DreamStream_personality%20analysis.png "Personality Analysis")
