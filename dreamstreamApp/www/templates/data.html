@@ -47,7 +47,7 @@
 
     <div class="row" ng-init="showAnalysis=false">
       <div class="col center">
-          <button ng-hide="showAnalysis" ng-click="Data.analysisChartData=Data.getAnalysis(); showAnalysis=true;" type="button" name="button">Get Analysis</button>
+          <button class="button button-block analysis-button" ng-hide="showAnalysis" ng-click="Data.analysisChartData=Data.getAnalysis(); showAnalysis=true;" type="button" name="button">Get Analysis</button>
           <highchart ng-show="showAnalysis" id="analysisChart" config="Data.analysisChartData"></highchart>
       </div>
     </div>

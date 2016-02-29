@@ -1,6 +1,19 @@
-<ion-view view-title="Your DreamStream">
-  <ion-content class="padding stream">
-    <div class="card" ng-repeat="dream in SC.dreams | orderBy:'-dateTime'">
+  <ion-view view-title="Your DreamStream">
+    <ion-content class="padding stream" ng-init='orderSelect=false'>
+      <div class="list">
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Filter By
+          </div>
+          <select name="filterSelect" id="filterSelect" ng-model="filterSelect">
+            <option value="dateTime" selected>Date</option>
+            <option value="mood">Mood</option>
+            <option value="rating">Rating</option>
+          </select>
+        </label>
+        <button class="button button-block reverse-order-button" name="button" ng-click="orderSelect = !orderSelect">Reverse Order</button>
+      </div>
+      <div class="card" ng-repeat="dream in SC.dreams | orderBy:filterSelect:orderSelect">
       <div class="item item-text-wrap">
         <h2>
           {{dream.dateTime | date: "EEEE, MMMM dd"}}
@@ -13,18 +26,21 @@
         <hr />
         <div class="row">
           <div class="col center">
+            <h3>{{dream.mood}}</h3>
             <h5>
-              MOOD: {{dream.mood}}
+              MOOD
             </h5>
           </div>
           <div class="col center">
+            <h3>{{dream.rating}}</h3>
             <h5>
-              RATING: {{dream.rating}}
+              RATING
             </h5>
           </div>
           <div class="col center">
+            <h3>{{dream.duration}}</h3>
             <h5>
-              DURATION: {{dream.duration}}
+              DURATION
             </h5>
           </div>
         </div>
